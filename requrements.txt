@@ -9,3 +9,4 @@ wandb==0.12.0
 dataclasses==0.6
 moviepy==1.0.3
 ninja==1.10.2
+numpy==1.19.0

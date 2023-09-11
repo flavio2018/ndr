@@ -42,58 +42,69 @@ class Task:
         else:
             assert False
 
+    # def create_valid_loader(self, vset: torch.utils.data.Dataset) -> torch.utils.data.DataLoader:
+    #     batch_size = self.test_batch_size
+
+    #     # Do bucketed testing even when the bucketed training is not enabled
+    #     if "in_len" in vset[0]:
+    #         batch_sampler = framework.loader.sampler.BucketedSampler(vset, batch_size, infinite=False, long_first=True,
+    #                                                                  random_order=False)
+    #         batch_size = 1
+    #     else:
+    #         batch_sampler = None
+
+    #     return torch.utils.data.DataLoader(vset, batch_size=batch_size, batch_sampler=batch_sampler,
+    #                                collate_fn=framework.loader.collate.VarLengthCollate(batch_dim=self.batch_dim),
+    #                                num_workers=self.VALID_NUM_WORKERS, persistent_workers=self.VALID_NUM_WORKERS > 0)
+
     def create_valid_loader(self, vset: torch.utils.data.Dataset) -> torch.utils.data.DataLoader:
-        batch_size = self.test_batch_size
+        return torch.utils.data.DataLoader(vset)
 
-        # Do bucketed testing even when the bucketed training is not enabled
-        if "in_len" in vset[0]:
-            batch_sampler = framework.loader.sampler.BucketedSampler(vset, batch_size, infinite=False, long_first=True,
-                                                                     random_order=False)
-            batch_size = 1
-        else:
-            batch_sampler = None
-
-        return torch.utils.data.DataLoader(vset, batch_size=batch_size, batch_sampler=batch_sampler,
-                                   collate_fn=framework.loader.collate.VarLengthCollate(batch_dim=self.batch_dim),
-                                   num_workers=self.VALID_NUM_WORKERS, persistent_workers=self.VALID_NUM_WORKERS > 0)
-
+    # def create_loaders(self):
+    #     self.train_loader = self.create_train_loader(self.train_set, mask = False)
+    #     self.valid_loaders = framework.data_structures.DotDict()
+    #     self.valid_loaders.update({k: self.create_valid_loader(v) for k, v in self.valid_sets.items()})
 
     def create_loaders(self):
-        self.train_loader = self.create_train_loader(self.train_set, mask = False)
+        self.train_loader = torch.utils.data.DataLoader(self.train_set)
         self.valid_loaders = framework.data_structures.DotDict()
-        self.valid_loaders.update({k: self.create_valid_loader(v) for k, v in self.valid_sets.items()})
+        self.valid_loaders.update({k: torch.utils.data.DataLoader(v) for k, v in self.valid_sets.items()})
 
-    def replace_valid_set(self, name: str, vset: torch.utils.data.Dataset):
-        self.valid_sets[name] = vset
-        self.valid_loaders[name] = self.create_valid_loader(vset)
+    # def replace_valid_set(self, name: str, vset: torch.utils.data.Dataset):
+    #     self.valid_sets[name] = vset
+    #     self.valid_loaders[name] = self.create_valid_loader(vset)
+
+    # def create_train_loader_bs(self, loader: torch.utils.data.Dataset, batch_size: int, seed: Optional[int] = None) \
+    #                         -> torch.utils.data.DataLoader:
+
+    #     if self.helper.args.length_bucketed_sampling and "in_len" in loader[0]:
+    #         batch_sampler = framework.loader.sampler.BucketedSampler(loader, batch_size, infinite=True, drop_last=True,
+    #                                                                  random_order=True)
+    #         sampler = None
+    #         batch_size = 1
+    #     else:
+    #         batch_sampler = None
+    #         sampler = framework.loader.sampler.InfiniteSampler(loader, seed = seed)
 
     def create_train_loader_bs(self, loader: torch.utils.data.Dataset, batch_size: int, seed: Optional[int] = None) \
-                            -> torch.utils.data.DataLoader:
+                              -> torch.utils.data.DataLoader:
+        loader.kwargs['batch_size'] = batch_size
+        return torch.utils.data.DataLoader(loader)
 
-        if self.helper.args.length_bucketed_sampling and "in_len" in loader[0]:
-            batch_sampler = framework.loader.sampler.BucketedSampler(loader, batch_size, infinite=True, drop_last=True,
-                                                                     random_order=True)
-            sampler = None
-            batch_size = 1
-        else:
-            batch_sampler = None
-            sampler = framework.loader.sampler.InfiniteSampler(loader, seed = seed)
+    #     return torch.utils.data.DataLoader(loader, batch_size=batch_size,
+    #                                        sampler=sampler, batch_sampler=batch_sampler,
+    #                                        collate_fn=framework.loader.collate.VarLengthCollate(
+    #                                            batch_dim=self.batch_dim),
+    #                                        num_workers=self.TRAIN_NUM_WORKERS, pin_memory=True,
+    #                                        persistent_workers=self.TRAIN_NUM_WORKERS > 0)
 
-
-        return torch.utils.data.DataLoader(loader, batch_size=batch_size,
-                                           sampler=sampler, batch_sampler=batch_sampler,
-                                           collate_fn=framework.loader.collate.VarLengthCollate(
-                                               batch_dim=self.batch_dim),
-                                           num_workers=self.TRAIN_NUM_WORKERS, pin_memory=True,
-                                           persistent_workers=self.TRAIN_NUM_WORKERS > 0)
-
-    def create_validate_on_train(self, set: torch.utils.data.Dataset):
-        self.valid_sets.train = set
-        self.valid_loaders.train = torch.utils.data.DataLoader(set, batch_size=self.helper.args.batch_size,
-                                   collate_fn=framework.loader.collate.VarLengthCollate(batch_dim=self.batch_dim),
-                                   sampler=framework.loader.sampler.SubsetSampler(set, len(self.valid_sets.iid)
-                                                                          if "iid" in self.valid_sets else 1000),
-                                   num_workers=self.VALID_NUM_WORKERS, persistent_workers=self.VALID_NUM_WORKERS > 0)
+    # def create_validate_on_train(self, set: torch.utils.data.Dataset):
+    #     self.valid_sets.train = set
+    #     self.valid_loaders.train = torch.utils.data.DataLoader(set, batch_size=self.helper.args.batch_size,
+    #                                collate_fn=framework.loader.collate.VarLengthCollate(batch_dim=self.batch_dim),
+    #                                sampler=framework.loader.sampler.SubsetSampler(set, len(self.valid_sets.iid)
+    #                                                                       if "iid" in self.valid_sets else 1000),
+    #                                num_workers=self.VALID_NUM_WORKERS, persistent_workers=self.VALID_NUM_WORKERS > 0)
 
     def clip_gradients(self):
         if self.helper.args.grad_clip:
