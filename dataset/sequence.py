@@ -182,18 +182,19 @@ class TextClassifierTestState(SampleTrackerTestState):
         self.type_counters = TypedAccuracyCounter(type_names or [])
 
     def ref_to_text(self, data: Dict[str, torch.Tensor], i: int) -> Tuple[str, str]:
-        t_ref = self.out_to_text(data["out"][i].item())
+        t_ref = self.out_to_text([v for v in data["out"][i]])
         t_in = self.in_to_text(data["in"].select(self.batch_dim, i)[: int(data["in_len"][i].item())].cpu().numpy().
                                tolist())
         return t_in, t_ref
 
     def net_out_to_text(self, net_out: Any, _, i: int) -> str:
         out = self.convert_to_index(net_out)
-        return self.out_to_text(out[i].cpu().numpy().item())
+        return self.out_to_text([v for v in out[i]])
 
     def step(self, net_out: torch.Tensor, data: Dict[str, torch.Tensor]):
         out = self.convert_to_index(net_out)
         ok_mask = out == data["out"]
+        ok_mask = ok_mask.all(-1)
 
         self.track_samples(net_out, ok_mask, data)
         self.oks.append(ok_mask.cpu())

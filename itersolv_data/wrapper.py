@@ -1,6 +1,7 @@
 from .AbstractGenerator import _PAD
 import framework
 import torch
+from dataset.sequence import TextClassifierTestState
 
 
 class GeneratorWrapper(torch.utils.data.IterableDataset):
@@ -15,17 +16,21 @@ class GeneratorWrapper(torch.utils.data.IterableDataset):
         self.kwargs = kwargs
         self.in_vocabulary = None
         self.out_vocabulary = None
+        self.max_iter_eval = 10
         self.construct_vocab()
 
     def __iter__(self):
         return self._generate_dict()
+
+    def __len__(self):
+        # used in test
+        return self.kwargs["batch_size"] * self.max_iter_eval
 
     def _generate_dict(self):
         def _sample_len(batch):
             pad_idx = self.generator.y_vocab[_PAD]
             return (batch != pad_idx).sum(-1)
 
-        self.max_iter_eval = 10
         self.curr_iter = 0
         
         def _continue():
@@ -40,7 +45,11 @@ class GeneratorWrapper(torch.utils.data.IterableDataset):
             token_X, token_Y = X.argmax(-1), Y.argmax(-1)
             yield {
                 "in": token_X.T,
-                "out": token_Y.T,
+                "out": token_Y,
                 "in_len": _sample_len(token_X),
                 "out_len": _sample_len(token_Y),
             }
+
+    def start_test(self) -> TextClassifierTestState:
+        return TextClassifierTestState(lambda x: " ".join(self.in_vocabulary(x)),
+                                       lambda x: "".join(self.out_vocabulary(x))[0], max_bad_samples=100)

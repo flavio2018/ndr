@@ -80,7 +80,7 @@ class TransformerClassifierModel(torch.nn.Module):
 
     def get_result(self, res: torch.Tensor, src_len: torch.Tensor) -> torch.Tensor:
         if self.result_column == "first":
-            return res[:, 0]
+            return res[:, :3]
         elif self.result_column == "last":
             return res.gather(1, src_len.view([src_len.shape[0], 1, 1]).expand(-1, -1, res.shape[-1]) - 1).squeeze(1)
         else:

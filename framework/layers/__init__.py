@@ -1,2 +1,3 @@
 from .positional_encoding import PositionalEncoding, sinusoidal_pos_embedding
 from .cross_entropy_label_smoothing import cross_entropy
+from .cross_entropy_2d import cross_entropy_2d

@@ -18,5 +18,6 @@ class TransformerClassifierInterface(ModelInterface):
 
     def __call__(self, data: Dict[str, torch.Tensor]) -> FeedforwardResult:
         res = self.model(data["in"].transpose(0, 1), data["in_len"].long())
-        loss = framework.layers.cross_entropy(res, data["out"], reduction='mean', smoothing=self.label_smoothing)
+        # loss = framework.layers.cross_entropy(res, data["out"], reduction='mean', smoothing=self.label_smoothing)
+        loss = framework.layers.cross_entropy_2d(res, data["out"], data["out_len"])
         return FeedforwardResult(res, loss)

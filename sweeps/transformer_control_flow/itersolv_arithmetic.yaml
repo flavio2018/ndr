@@ -58,7 +58,7 @@ parameters:
   trafo_classifier.out_mode:
     value: linear
   transformer_classifier.result_column:
-    value: last
+    value: first
   trafo_classifier.norm_att:
     value: 0
   itersolv_arithmetics.iid_nesting:

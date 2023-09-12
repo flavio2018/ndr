@@ -140,7 +140,7 @@ class ListOpsGenerator(AbstractGenerator):
 
 	def _build_s2e_baseline_target(self, samples):
 		s2e_target = self._build_s2e_target(samples)
-		return [f"{_SOS}{sample}{_EOS}" for sample in s2e_target]
+		return [f"{sample}" for sample in s2e_target]
 
 	def _build_combiner_target(self, samples):
 		return [sample.steps[1] for sample in samples]
