@@ -34,9 +34,9 @@ std::vector<torch::Tensor> cuda_log_sigmoid_forward(torch::Tensor input){
     const int blocks = (N + threads - 1) / threads;
 
     k_cuda_log_sigmoid_forward<<<blocks, threads>>>(N,  
-        input.data<float>(),
-        o1.data<float>(),
-        o2.data<float>());
+        input.data_ptr<float>(),
+        o1.data_ptr<float>(),
+        o2.data_ptr<float>());
     
     return {o1, o2};
 }
@@ -49,10 +49,10 @@ std::vector<torch::Tensor> cuda_log_sigmoid_backward(torch::Tensor input, torch:
     const int blocks = (N + threads - 1) / threads;
 
     k_cuda_log_sigmoid_backward<<<blocks, threads>>>(N,  
-        input.data<float>(),
-        grad_sigm.data<float>(),
-        grad_one_minus_sigm.data<float>(),
-        output.data<float>());
+        input.data_ptr<float>(),
+        grad_sigm.data_ptr<float>(),
+        grad_one_minus_sigm.data_ptr<float>(),
+        output.data_ptr<float>());
     
     return {output};
 }
