@@ -58,7 +58,7 @@ class Task:
     #                                num_workers=self.VALID_NUM_WORKERS, persistent_workers=self.VALID_NUM_WORKERS > 0)
 
     def create_valid_loader(self, vset: torch.utils.data.Dataset) -> torch.utils.data.DataLoader:
-        return torch.utils.data.DataLoader(vset)
+        return torch.utils.data.DataLoader(vset, collate_fn=lambda l: l[0])
 
     # def create_loaders(self):
     #     self.train_loader = self.create_train_loader(self.train_set, mask = False)
@@ -66,9 +66,9 @@ class Task:
     #     self.valid_loaders.update({k: self.create_valid_loader(v) for k, v in self.valid_sets.items()})
 
     def create_loaders(self):
-        self.train_loader = torch.utils.data.DataLoader(self.train_set)
+        self.train_loader = torch.utils.data.DataLoader(self.train_set, collate_fn=lambda l: l[0])
         self.valid_loaders = framework.data_structures.DotDict()
-        self.valid_loaders.update({k: torch.utils.data.DataLoader(v) for k, v in self.valid_sets.items()})
+        self.valid_loaders.update({k: self.create_valid_loader(v) for k, v in self.valid_sets.items()})
 
     # def replace_valid_set(self, name: str, vset: torch.utils.data.Dataset):
     #     self.valid_sets[name] = vset
@@ -89,7 +89,7 @@ class Task:
     def create_train_loader_bs(self, loader: torch.utils.data.Dataset, batch_size: int, seed: Optional[int] = None) \
                               -> torch.utils.data.DataLoader:
         loader.kwargs['batch_size'] = batch_size
-        return torch.utils.data.DataLoader(loader)
+        return torch.utils.data.DataLoader(loader, collate_fn=lambda l: l[0])
 
     #     return torch.utils.data.DataLoader(loader, batch_size=batch_size,
     #                                        sampler=sampler, batch_sampler=batch_sampler,

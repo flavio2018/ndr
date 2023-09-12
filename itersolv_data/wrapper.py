@@ -39,8 +39,8 @@ class GeneratorWrapper(torch.utils.data.IterableDataset):
             X, Y = self.generator.generate_batch(**self.kwargs)
             token_X, token_Y = X.argmax(-1), Y.argmax(-1)
             yield {
-                "in": token_X,
-                "out": token_Y,
+                "in": token_X.T,
+                "out": token_Y.T,
                 "in_len": _sample_len(token_X),
                 "out_len": _sample_len(token_Y),
             }
