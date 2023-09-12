@@ -1,3 +1,4 @@
+from .AbstractGenerator import _PAD
 import framework
 import torch
 
