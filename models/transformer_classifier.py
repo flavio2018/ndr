@@ -40,7 +40,11 @@ class TransformerClassifierModel(torch.nn.Module):
                                         scale=(1.0 / math.sqrt(state_size)) if scale_mode == "down" else 1.0)
 
         self.result_column = result_column
-        assert self.result_column in ["first", "last"] or isinstance(self.result_column, int)
+        if self.result_column not in ["first", "last"]:
+            try:
+                self.result_column = int(self.result_column)
+            except ValueError:
+                assert False, f"Invalid result_column: {self.result_column}"
         self.register_buffer('int_seq', torch.arange(max_len, dtype=torch.long))
         self.construct(transformer, **kwargs)
         self.reset_parameters()
