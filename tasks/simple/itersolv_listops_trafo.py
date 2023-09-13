@@ -1,6 +1,6 @@
 from .simple_task import SimpleTask
 from .transformer_classifier_mixin import TransformerClassifierMixin
-from .itersolv_arithmetic_mixin import IterSolvListopsMixin
+from .itersolv_listops_mixin import IterSolvListopsMixin
 from .. import task, args
 import framework
 
