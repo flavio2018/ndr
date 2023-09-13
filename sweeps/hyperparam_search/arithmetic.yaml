@@ -4,7 +4,7 @@ command:
   - python3
   - ${program}
   - ${args}
-method: grid
+method: random
 metric:
   name: validation/ood/accuracy/total
   goal: maximize
