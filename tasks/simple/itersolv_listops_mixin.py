@@ -4,7 +4,7 @@ from itersolv_data.wrapper import GeneratorWrapper
 
 class IterSolvListopsMixin:
 
-    def create_dataset(self):
+    def create_datasets(self):
         self.batch_dim = 1
         generator = ListOpsGenerator('cuda', specials_in_x=True)
         train_kwargs = {
