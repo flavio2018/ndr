@@ -1,0 +1,86 @@
+program: main.py
+command:
+  - ${env}
+  - python3
+  - ${program}
+  - ${args}
+method: random
+metric:
+  name: validation/ood/accuracy/total
+  goal: maximize
+parameters:
+  log:
+    value: wandb
+  profile:
+    value: listops_trafo
+  transformer.variant:
+    value: ndr_geometric
+  test_batch_size:
+    value: 256
+  transformer.encoder_n_layers:
+    min: 4
+    max: 20
+  task:
+    value: itersolv_arithmetic_trafo
+  lr:
+    min: 0.00005
+    max: 0.001
+  state_size:
+    values:
+      - 128
+      - 256
+      - 512
+  dropout:
+    min: 0.0
+    max: 0.5
+  wd:
+    min: 0.0
+    max: 0.1
+  transformer.n_heads:
+    values:
+      - 2
+      - 4
+      - 8
+      - 16
+  batch_size:
+    value: 512
+  length_bucketed_sampling:
+    value: 1
+  optimizer:
+    value: adamw
+  stop_after:
+    value: 100000
+  max_length_per_batch:
+    value: none
+  amp:
+    value: 1
+  wandb_bug_workaround:
+    value: 1
+  geometric.pos_encoding:
+    value: direction
+  transformer.attention_dropout:
+    min: 0.0
+    max: 0.5
+  ndr.scalar_gate:
+    value: 0
+  ndr.drop_gate:
+    value: 0.1
+  transformer.ff_multiplier:
+    values:
+      - 1
+      - 2
+      - 4
+  trafo_classifier.out_mode:
+    value: linear
+  transformer_classifier.result_column:
+    value: 1
+  trafo_classifier.norm_att:
+    value: 0
+  itersolv_listops.iid_nesting:
+    value: 2
+  itersolv_listops.iid_num_operands:
+    value: 2
+  itersolv_listops.ood_nesting:
+    value: 4
+  itersolv_listops.ood_num_operands:
+    value: 4
