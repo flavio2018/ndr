@@ -31,10 +31,10 @@ parameters:
       - 256
       - 512
   dropout:
-    min: 0
+    min: 0.0
     max: 0.5
   wd:
-    min: 0
+    min: 0.0
     max: 0.1
   transformer.n_heads:
     values:
