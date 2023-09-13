@@ -14,7 +14,7 @@ parameters:
   profile:
     value: listops_trafo
   transformer.variant:
-    value: ndr_residual
+    value: ndr_geometric
   test_batch_size:
     value: 16
   transformer.encoder_n_layers:
