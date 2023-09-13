@@ -21,7 +21,7 @@ parameters:
     min: 4
     max: 20
   task:
-    value: itersolv_arithmetic_trafo
+    value: itersolv_listops_trafo
   lr:
     min: 0.00005
     max: 0.001
