@@ -40,7 +40,7 @@ class TransformerClassifierModel(torch.nn.Module):
                                         scale=(1.0 / math.sqrt(state_size)) if scale_mode == "down" else 1.0)
 
         self.result_column = result_column
-        assert self.result_column in ["first", "last"]
+        assert self.result_column in ["first", "last"] or isinstance(self.result_column, int)
         self.register_buffer('int_seq', torch.arange(max_len, dtype=torch.long))
         self.construct(transformer, **kwargs)
         self.reset_parameters()
@@ -80,9 +80,11 @@ class TransformerClassifierModel(torch.nn.Module):
 
     def get_result(self, res: torch.Tensor, src_len: torch.Tensor) -> torch.Tensor:
         if self.result_column == "first":
-            return res[:, :3]
+            return res[:, 0]
         elif self.result_column == "last":
             return res.gather(1, src_len.view([src_len.shape[0], 1, 1]).expand(-1, -1, res.shape[-1]) - 1).squeeze(1)
+        elif isinstance(self.result_column, int):
+            return res[:, :self.result_column]
         else:
             assert False
 
