@@ -59,7 +59,7 @@ parameters:
   geometric.pos_encoding:
     value: direction
   transformer.attention_dropout:
-    min: 0
+    min: 0.0
     max: 0.5
   ndr.scalar_gate:
     value: 0
