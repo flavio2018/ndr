@@ -17,7 +17,7 @@ from typing import Dict, List, Tuple, Any
 
 @args
 def a(parser: framework.helpers.ArgumentParser):
-    parser.add_argument("-transformer_classifier.result_column", default="first", choice=["first", "last"])
+    parser.add_argument("-transformer_classifier.result_column", default="first")
     parser.add_argument("-transformer_classifier.autoregressive", default=False)
     parser.add_argument("-ndr.scalar_gate", default=False)
     parser.add_argument("-ndr.abs_gate", default=True)
