@@ -6,7 +6,7 @@ command:
   - ${args}
 method: grid
 metric:
-  name: validation/valid/accuracy/total
+  name: validation/valid/ood/total
   goal: maximize
 parameters:
   log:

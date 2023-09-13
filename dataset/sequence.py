@@ -193,7 +193,9 @@ class TextClassifierTestState(SampleTrackerTestState):
 
     def step(self, net_out: torch.Tensor, data: Dict[str, torch.Tensor]):
         out = self.convert_to_index(net_out)
-        ok_mask = out == data["out"]
+        pos_mask = torch.ones_like(data['out']).cumsum(1)
+        valid_pos = pos_mask <= data['out_len'].unsqueeze(1)
+        ok_mask = (out == data["out"]) | (~valid_pos)
         ok_mask = ok_mask.all(-1)
 
         self.track_samples(net_out, ok_mask, data)

@@ -1,7 +1,7 @@
 from .AbstractGenerator import _PAD
 import framework
 import torch
-from dataset.sequence import TextClassifierTestState
+from dataset.sequence import TextClassifierTestState, TextSequenceTestState
 
 
 class GeneratorWrapper(torch.utils.data.IterableDataset):
