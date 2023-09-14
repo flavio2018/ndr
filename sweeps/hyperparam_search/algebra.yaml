@@ -16,7 +16,7 @@ parameters:
   transformer.variant:
     value: ndr_geometric
   test_batch_size:
-    value: 256
+    value: 128
   transformer.encoder_n_layers:
     min: 4
     max: 20
@@ -43,7 +43,7 @@ parameters:
       - 8
       - 16
   batch_size:
-    value: 512
+    value: 256
   length_bucketed_sampling:
     value: 1
   optimizer:

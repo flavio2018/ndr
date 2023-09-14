@@ -55,7 +55,7 @@ parameters:
   amp:
     value: 1
   wandb_bug_workaround:
-    value: 1
+    value: 0
   geometric.pos_encoding:
     value: direction
   transformer.attention_dropout:
