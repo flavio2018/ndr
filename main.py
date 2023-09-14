@@ -119,8 +119,8 @@ def main():
         print("Training finished. Saving model...")
         task.save_weights()
 
-    if helper.args.analysis.enable and not helper.args.train_baseline:
-        task.post_train()
+    # if helper.args.analysis.enable and not helper.args.train_baseline:
+    #     task.post_train()
 
     task.finish()
     helper.finish()
