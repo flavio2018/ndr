@@ -4,7 +4,7 @@ command:
   - python3
   - ${program}
   - ${args}
-method: random
+method: bayes
 metric:
   name: validation/ood/accuracy/total
   goal: maximize
@@ -79,7 +79,7 @@ parameters:
   itersolv_listops.iid_nesting:
     value: 2
   itersolv_listops.iid_num_operands:
-    value: 2
+    value: 3
   itersolv_listops.ood_nesting:
     value: 4
   itersolv_listops.ood_num_operands:
