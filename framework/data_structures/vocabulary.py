@@ -13,11 +13,12 @@ class WordVocabulary:
         self.split_punctuation = split_punctuation
 
         if list_of_sentences is not None:
-            words = set()
+            words = []
             for s in list_of_sentences:
-                words |= set(self.split_sentence(s))
+                if not s in words:
+                    words.append(s)
 
-            self._add_set(words)
+            self._add_list(words)
             self.finalize()
 
     def finalize(self):
@@ -34,6 +35,10 @@ class WordVocabulary:
 
     def _add_set(self, words: Set[str]):
         for w in sorted(words):
+            self._add_word(w)
+
+    def _add_list(self, words: List[str]):
+        for w in words:
             self._add_word(w)
 
     def _process_word(self, w: str) -> int:
