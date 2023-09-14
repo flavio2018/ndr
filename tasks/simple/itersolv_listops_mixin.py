@@ -6,7 +6,7 @@ class IterSolvListopsMixin:
 
     def create_datasets(self):
         self.batch_dim = 1
-        generator = ListOpsGenerator('cuda', specials_in_x=True)
+        generator = ListOpsGenerator('cuda', specials_in_x=True, ops='ias')
         train_kwargs = {
             "batch_size": self.helper.args.batch_size,
             "max_depth": self.helper.args.itersolv_listops.iid_nesting,
