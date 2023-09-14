@@ -55,7 +55,7 @@ parameters:
   amp:
     value: 1
   wandb_bug_workaround:
-    value: 1
+    value: 0
   geometric.pos_encoding:
     value: direction
   transformer.attention_dropout:
@@ -73,7 +73,7 @@ parameters:
   trafo_classifier.out_mode:
     value: linear
   transformer_classifier.result_column:
-    value: 20
+    value: 19
   trafo_classifier.norm_att:
     value: 0
   itersolv_algebra.iid_nesting:
