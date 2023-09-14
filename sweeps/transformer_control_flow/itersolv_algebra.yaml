@@ -4,9 +4,9 @@ command:
   - python3
   - ${program}
   - ${args}
-method: bayes
+method: grid
 metric:
-  name: validation/ood/accuracy/total
+  name: validation/valid/ood/total
   goal: maximize
 parameters:
   log:
@@ -14,36 +14,25 @@ parameters:
   profile:
     value: listops_trafo
   transformer.variant:
-    value: ndr_geometric
+    value: ndr_residual
   test_batch_size:
-    value: 256
+    value: 16
   transformer.encoder_n_layers:
-    min: 4
-    max: 20
+    value: 2
   task:
     value: itersolv_algebra_trafo
   lr:
-    min: 0.00005
-    max: 0.001
+    value: 1.5e-4
   state_size:
-    values:
-      - 128
-      - 256
-      - 512
+    value: 256
   dropout:
-    min: 0.0
-    max: 0.5
+    value: 0.5
   wd:
-    min: 0.0
-    max: 0.1
+    value: 0.01
   transformer.n_heads:
-    values:
-      - 2
-      - 4
-      - 8
-      - 16
+    value: 4
   batch_size:
-    value: 512
+    value: 16
   length_bucketed_sampling:
     value: 1
   optimizer:
@@ -55,21 +44,17 @@ parameters:
   amp:
     value: 1
   wandb_bug_workaround:
-    value: 0
+    value: 1
   geometric.pos_encoding:
     value: direction
   transformer.attention_dropout:
-    min: 0.0
-    max: 0.5
+    value: 0.1
   ndr.scalar_gate:
     value: 0
   ndr.drop_gate:
     value: 0.1
   transformer.ff_multiplier:
-    values:
-      - 1
-      - 2
-      - 4
+    value: 4
   trafo_classifier.out_mode:
     value: linear
   transformer_classifier.result_column:
@@ -84,3 +69,12 @@ parameters:
     value: 4
   itersolv_algebra.ood_num_operands:
     value: 4
+  sweep_id_for_grid_search:
+    distribution: categorical
+    values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
