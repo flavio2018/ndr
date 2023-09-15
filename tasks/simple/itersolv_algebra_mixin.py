@@ -6,7 +6,9 @@ class IterSolvAlgebraMixin:
 
     def create_datasets(self):
         self.batch_dim = 1
-        generator = AlgebraicExpressionGenerator('cuda', specials_in_x=True)
+        generator = AlgebraicExpressionGenerator('cuda', specials_in_x=True,
+                                                 variables='xy',
+                                                 coeff_variables='ab')
         train_kwargs = {
             "batch_size": self.helper.args.batch_size,
             "nesting": self.helper.args.itersolv_arithmetics.iid_nesting,
