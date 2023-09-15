@@ -195,6 +195,9 @@ class TextClassifierTestState(SampleTrackerTestState):
         out = self.convert_to_index(net_out)
         pos_mask = torch.ones_like(data['out']).cumsum(1)
         valid_pos = pos_mask <= data['out_len'].unsqueeze(1)
+        # Dynamic-length output
+        if out.shape[1] > data['out'].shape[1]:
+            out = out[: data['out'].shape[1]]
         ok_mask = (out == data["out"]) | (~valid_pos)
         ok_mask = ok_mask.all(-1)
 
