@@ -52,4 +52,4 @@ class GeneratorWrapper(torch.utils.data.IterableDataset):
 
     def start_test(self) -> TextClassifierTestState:
         return TextClassifierTestState(lambda x: " ".join(self.in_vocabulary(x)),
-                                       lambda x: "".join(self.out_vocabulary(x))[0], max_bad_samples=100)
+                                       lambda x: "".join(self.out_vocabulary(x)), max_bad_samples=100)
