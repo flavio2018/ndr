@@ -4,7 +4,7 @@ from itersolv_data.listops import ListOpsGenerator
 
 
 def main():
-    helper, task = initialize(f'wandb/run-20230916_055501-2msreb3f/files/checkpoint/model-100000.pth')
+    helper, task = initialize()
 
     valid_ood_kwargs = {
         "batch_size": task.helper.args.batch_size,
