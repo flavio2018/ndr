@@ -1,6 +1,7 @@
 from itersolv_data.listops import ListOpsGenerator
 from itersolv_data.wrapper import GeneratorWrapper
 
+
 class IterSolvListopsTestMixin:
 
     def create_datasets(self):
@@ -17,15 +18,15 @@ class IterSolvListopsTestMixin:
         self.train_set = GeneratorWrapper(generator, train_kwargs)
 
 
-        valid_ood_kwargs = {
-            "batch_size": self.helper.args.batch_size,
-            "max_depth": 2,
-            "max_args": 2,
-            "split": 'test',
-            "s2e_baseline": True,
-            "exact": True,
-        }
-        self.valid_sets.ood_2_2 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs = {
+        #     "batch_size": self.helper.args.batch_size,
+        #     "max_depth": 2,
+        #     "max_args": 2,
+        #     "split": 'test',
+        #     "s2e_baseline": True,
+        #     "exact": True,
+        # }
+        # self.valid_sets.ood_2_2 = GeneratorWrapper(generator, valid_ood_kwargs)
         # valid_ood_kwargs['max_args'] = 3
         # self.valid_sets.ood_2_3 = GeneratorWrapper(generator, valid_ood_kwargs)
         # valid_ood_kwargs['max_args'] = 4
