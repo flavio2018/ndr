@@ -74,6 +74,7 @@ class TrainingHelper:
         self.arg_parser.add_argument("-sweep_id_for_grid_search", default=0,
                                      help="Doesn't do anything, just to run multiple W&B iterations.")
         self.arg_parser.add_argument("-restore", default="")
+        self.arg_parser.add_argument("-resume", default=False)
         self.arg_parser.add_argument("-wandb_bug_workaround", default=False)
 
     def create_dirs(self):
@@ -138,7 +139,7 @@ class TrainingHelper:
 
         assert self.args.name is not None or self.use_wandb, "Either name must be specified or W&B should be used"
 
-        if self.args.restore and self.restore_pending["run_invariants"]["wandb_id"] is not None:
+        if self.args.restore and self.restore_pending["run_invariants"]["wandb_id"] is not None and self.args.resume:
             wandb_args = {
                 "project": self.wandb_project_name,
                 "id": self.restore_pending["run_invariants"]["wandb_id"]["run_id"],
