@@ -6,6 +6,17 @@ class IterSolvListopsTestMixin:
     def create_datasets(self):
         self.batch_dim = 1
         generator = ListOpsGenerator('cuda', specials_in_x=True, ops='ias')
+        
+        train_kwargs = {
+            "batch_size": self.helper.args.batch_size,
+            "max_depth": 2,
+            "max_args": 3,
+            "split": 'train',
+            "s2e_baseline": True,
+        }
+        self.train_set = GeneratorWrapper(generator, train_kwargs)
+
+
         valid_ood_kwargs = {
             "batch_size": self.helper.args.batch_size,
             "max_depth": 2,
