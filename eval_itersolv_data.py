@@ -15,10 +15,14 @@ def main():
         "exact": True,
     }
 
-    task.valid_sets.ood_2_2 = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
-    task.create_loaders()
-    test, loss = task.validate_on_name('ood_2_2')
-    print('ood_2_2', test.accuracy)
+    for nesting in range(2, 5):
+        for n_operands in range(2, 5):
+            valid_ood_kwargs["max_depth"] = nesting
+            valid_ood_kwargs["max_args"] = n_operands
+            task.valid_sets.ood = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
+            task.create_loaders()
+            test, loss = task.validate_on_name('ood')
+            print(f'ood_{nesting}_{n_operands}', test.accuracy)
     return
     # test, loss = task.validate_on_name('ood_2_3')
     # test, loss = task.validate_on_name('ood_2_4')
