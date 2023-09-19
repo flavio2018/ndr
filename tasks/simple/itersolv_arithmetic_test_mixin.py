@@ -4,9 +4,9 @@ from itersolv_data.wrapper import GeneratorWrapper
 
 class IterSolvArithmeticTestMixin:
 
-	def create_datasets(self):
-		self.batch_dim = 1
-		generator = ArithmeticExpressionGenerator('cuda', specials_in_x=True)
+    def create_datasets(self):
+        self.batch_dim = 1
+        generator = ArithmeticExpressionGenerator('cuda', specials_in_x=True)
         
         train_kwargs = {
             "batch_size": self.helper.args.batch_size,

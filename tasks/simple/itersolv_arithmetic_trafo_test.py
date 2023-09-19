@@ -6,4 +6,4 @@ from .. import task
 
 @task
 class ItersolvArithmeticTrafoTest(IterSolvArithmeticTestMixin, TransformerClassifierMixin, SimpleTask):
-	pass
+    pass
