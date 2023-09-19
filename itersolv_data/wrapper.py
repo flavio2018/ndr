@@ -16,7 +16,7 @@ class GeneratorWrapper(torch.utils.data.IterableDataset):
         self.kwargs = kwargs
         self.in_vocabulary = None
         self.out_vocabulary = None
-        self.max_iter_eval = 10
+        self.max_iter_eval = 20
         self.construct_vocab()
 
     def __iter__(self):
