@@ -15,6 +15,10 @@ def main():
         "exact": True,
     }
 
+    accuracy_table = [[None, None, None],
+                      [None, None, None],
+                      [None, None, None]]
+
     for nesting in range(2, 5):
         for n_operands in range(2, 5):
             valid_ood_kwargs["max_depth"] = nesting
@@ -23,15 +27,10 @@ def main():
             task.create_loaders()
             test, loss = task.validate_on_name('ood')
             print(f'ood_{nesting}_{n_operands}', test.accuracy)
+            accuracy_table[nesting-2][n_operands-2] = test.accuracy
+
+    print(accuracy_table)
     return
-    # test, loss = task.validate_on_name('ood_2_3')
-    # test, loss = task.validate_on_name('ood_2_4')
-    # test, loss = task.validate_on_name('ood_3_2')
-    # test, loss = task.validate_on_name('ood_3_3')
-    # test, loss = task.validate_on_name('ood_3_4')
-    # test, loss = task.validate_on_name('ood_4_2')
-    # test, loss = task.validate_on_name('ood_4_3')
-    # test, loss = task.validate_on_name('ood_4_4')
 
 
 if __name__ == '__main__':
