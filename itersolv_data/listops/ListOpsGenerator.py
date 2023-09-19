@@ -58,8 +58,8 @@ class ListOpsGenerator(AbstractGenerator):
 		return output
 
 
-	def generate_batch(self, batch_size, max_depth, max_args, split='train', exact=False, combiner=False, s2e=False, s2e_baseline=False, simplify=False):
-		samples = [self._generate_sample_in_split(max_depth, max_args, split, exact) for _ in range(batch_size)]
+	def generate_batch(self, batch_size, nesting, n_operands, split='train', exact=False, combiner=False, s2e=False, s2e_baseline=False, simplify=False):
+		samples = [self._generate_sample_in_split(nesting, n_operands, split, exact) for _ in range(batch_size)]
 		self.subexpressions_positions = [sample.get_start_end_subexpression() for sample in samples]
 		X_str, Y_str = self._build_simplify_w_value(samples)
 

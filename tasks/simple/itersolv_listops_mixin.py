@@ -9,8 +9,8 @@ class IterSolvListopsMixin:
         generator = ListOpsGenerator('cuda', specials_in_x=True, ops='ias')
         train_kwargs = {
             "batch_size": self.helper.args.batch_size,
-            "max_depth": self.helper.args.itersolv_listops.iid_nesting,
-            "max_args": self.helper.args.itersolv_listops.iid_num_operands,
+            "nesting": self.helper.args.itersolv_listops.iid_nesting,
+            "n_operands": self.helper.args.itersolv_listops.iid_num_operands,
             "split": 'train',
             "s2e_baseline": True,
         }
@@ -18,8 +18,8 @@ class IterSolvListopsMixin:
 
         valid_iid_kwargs = {
             "batch_size": self.helper.args.batch_size,
-            "max_depth": self.helper.args.itersolv_listops.iid_nesting,
-            "max_args": self.helper.args.itersolv_listops.iid_num_operands,
+            "nesting": self.helper.args.itersolv_listops.iid_nesting,
+            "n_operands": self.helper.args.itersolv_listops.iid_num_operands,
             "split": 'valid',
             "s2e_baseline": True,
         }
@@ -27,8 +27,8 @@ class IterSolvListopsMixin:
 
         valid_ood_kwargs = {
             "batch_size": self.helper.args.batch_size,
-            "max_depth": self.helper.args.itersolv_listops.ood_nesting,
-            "max_args": self.helper.args.itersolv_listops.ood_num_operands,
+            "nesting": self.helper.args.itersolv_listops.ood_nesting,
+            "n_operands": self.helper.args.itersolv_listops.ood_num_operands,
             "split": 'valid',
             "s2e_baseline": True,
         }

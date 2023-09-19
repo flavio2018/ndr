@@ -10,41 +10,9 @@ class IterSolvListopsTestMixin:
         
         train_kwargs = {
             "batch_size": self.helper.args.batch_size,
-            "max_depth": 2,
-            "max_args": 3,
+            "nesting": 2,
+            "n_operands": 3,
             "split": 'train',
             "s2e_baseline": True,
         }
         self.train_set = GeneratorWrapper(generator, train_kwargs)
-
-
-        # valid_ood_kwargs = {
-        #     "batch_size": self.helper.args.batch_size,
-        #     "max_depth": 2,
-        #     "max_args": 2,
-        #     "split": 'test',
-        #     "s2e_baseline": True,
-        #     "exact": True,
-        # }
-        # self.valid_sets.ood_2_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 3
-        # self.valid_sets.ood_2_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 4
-        # self.valid_sets.ood_2_4 = GeneratorWrapper(generator, valid_ood_kwargs)
-        
-        # valid_ood_kwargs['max_depth'] = 3
-        # valid_ood_kwargs['max_args'] = 2
-        # self.valid_sets.ood_3_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 3
-        # self.valid_sets.ood_3_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 4
-        # self.valid_sets.ood_3_4 = GeneratorWrapper(generator, valid_ood_kwargs)
-
-        # valid_ood_kwargs['max_depth'] = 4
-        # valid_ood_kwargs['max_args'] = 2
-        # self.valid_sets.ood_4_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 3
-        # self.valid_sets.ood_4_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        # valid_ood_kwargs['max_args'] = 4
-        # self.valid_sets.ood_4_4 = GeneratorWrapper(generator, valid_ood_kwargs)
-        
