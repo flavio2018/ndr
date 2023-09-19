@@ -1,5 +1,6 @@
 from main import initialize
 from itersolv_data.wrapper import GeneratorWrapper
+from itersolv_data.listops import ListOpsGenerator
 
 
 def main():
@@ -14,7 +15,7 @@ def main():
         "exact": True,
     }
 
-    task.valid_sets.ood_2_2 = GeneratorWrapper(generator, valid_ood_kwargs)
+    task.valid_sets.ood_2_2 = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
     task.create_loaders()
     test, loss = task.validate_on_name('ood_2_2')
     print('ood_2_2', test.accuracy)
