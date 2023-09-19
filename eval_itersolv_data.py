@@ -12,7 +12,7 @@ def main():
         "max_args": 2,
         "split": 'test',
         "s2e_baseline": True,
-        "exact": False,
+        "exact": True,
     }
 
     for nesting in range(2, 5):
