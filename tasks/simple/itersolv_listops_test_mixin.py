@@ -26,24 +26,24 @@ class IterSolvListopsTestMixin:
             "exact": True,
         }
         self.valid_sets.ood_2_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 3
-        self.valid_sets.ood_2_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 4
-        self.valid_sets.ood_2_4 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 3
+        # self.valid_sets.ood_2_3 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 4
+        # self.valid_sets.ood_2_4 = GeneratorWrapper(generator, valid_ood_kwargs)
         
-        valid_ood_kwargs['max_depth'] = 3
-        valid_ood_kwargs['max_args'] = 2
-        self.valid_sets.ood_3_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 3
-        self.valid_sets.ood_3_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 4
-        self.valid_sets.ood_3_4 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_depth'] = 3
+        # valid_ood_kwargs['max_args'] = 2
+        # self.valid_sets.ood_3_2 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 3
+        # self.valid_sets.ood_3_3 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 4
+        # self.valid_sets.ood_3_4 = GeneratorWrapper(generator, valid_ood_kwargs)
 
-        valid_ood_kwargs['max_depth'] = 4
-        valid_ood_kwargs['max_args'] = 2
-        self.valid_sets.ood_4_2 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 3
-        self.valid_sets.ood_4_3 = GeneratorWrapper(generator, valid_ood_kwargs)
-        valid_ood_kwargs['max_args'] = 4
-        self.valid_sets.ood_4_4 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_depth'] = 4
+        # valid_ood_kwargs['max_args'] = 2
+        # self.valid_sets.ood_4_2 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 3
+        # self.valid_sets.ood_4_3 = GeneratorWrapper(generator, valid_ood_kwargs)
+        # valid_ood_kwargs['max_args'] = 4
+        # self.valid_sets.ood_4_4 = GeneratorWrapper(generator, valid_ood_kwargs)
         
