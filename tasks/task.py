@@ -162,19 +162,29 @@ class Task:
         return self.validate_on(self.valid_sets[name], self.valid_loaders[name])
 
     def update_best_accuracies(self, name: str, accuracy: float, loss: float):
-        print(self.helper.state.best_losses)
-        print(name)
-        print(self.helper.state.best_losses[name])
-        if name not in self.helper.state.best_losses or loss < self.helper.state.best_losses[name].loss:
+        if isinstance(self.helper.state.best_losses[name], dict):
+            cur_best_loss = self.helper.state.best_losses[name]["loss"]
+            best_loss_iter = self.helper.state.best_losses[name]["iter"]
+        elif isinstance(self.helper.state.best_losses[name], LastBestMarker):
+            cur_best_loss = self.helper.state.best_losses[name].loss
+            best_loss_iter = self.helper.state.best_losses[name].iter
+
+        if name not in self.helper.state.best_losses or loss < cur_best_loss:
                 self.helper.state.best_losses[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
 
-        if name not in self.helper.state.best_accuracies or accuracy > \
-                self.helper.state.best_accuracies[name].accuracy:
+        if isinstance(self.helper.state.best_accuracies[name], dict):
+            cur_best_acc = self.helper.state.best_accuracies[name]["accuracy"]
+            best_acc_iter = self.helper.state.best_accuracies[name]["iter"]
+        elif isinstance(self.helper.state.best_accuracies[name], LastBestMarker):
+            cur_best_acc = self.helper.state.best_accuracies[name].accuracy
+            best_acc_iter = self.helper.state.best_accuracies[name].iter
+
+        if name not in self.helper.state.best_accuracies or accuracy > cur_best_acc:
             self.helper.state.best_accuracies[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
 
         return {
-            f"{name}/time_since_best_loss": self.helper.state.iter - self.helper.state.best_losses[name].iter,
-            f"{name}/time_since_best_accuracy": self.helper.state.iter - self.helper.state.best_accuracies[name].iter
+            f"{name}/time_since_best_loss": self.helper.state.iter - best_loss_iter,
+            f"{name}/time_since_best_accuracy": self.helper.state.iter - best_acc_iter
         }
 
     def validate_on_names(self, name_it: Iterable[str]) -> Dict[str, Any]:
