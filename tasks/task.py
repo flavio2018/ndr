@@ -162,7 +162,9 @@ class Task:
         return self.validate_on(self.valid_sets[name], self.valid_loaders[name])
 
     def update_best_accuracies(self, name: str, accuracy: float, loss: float):
-        breakpoint()
+        print(self.helper.state.best_losses)
+        print(name)
+        print(self.helper.state.best_losses[name])
         if name not in self.helper.state.best_losses or loss < self.helper.state.best_losses[name].loss:
                 self.helper.state.best_losses[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
 
