@@ -21,12 +21,6 @@ parameters:
     value: itersolv_arithmetic_trafo
   restore:
     value: ## COMPLETE ##
-  lr:
-    value: ## COMPLETE ##
-  dropout:
-    value: ## COMPLETE ##
-  wd:
-    value: ## COMPLETE ##
   batch_size:
     value: 512
   length_bucketed_sampling:
@@ -43,8 +37,6 @@ parameters:
     value: 0
   geometric.pos_encoding:
     value: direction
-  transformer.attention_dropout:
-    value: ## COMPLETE ##
   ndr.scalar_gate:
     value: 0
   ndr.drop_gate:
