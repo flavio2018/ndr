@@ -1,4 +1,7 @@
 from .AbstractGenerator import _PAD
+from algebra import AlgebraicExpressionGenerator
+from arithmetic import ArithmeticExpressionGenerator
+from listops import ListopsGenerator
 import torch
 import framework
 import pandas as pd
@@ -13,12 +16,21 @@ class TestDataset(torch.utils.data.Dataset):
             self.out_vocabulary = framework.data_structures.WordVocabulary([c for c in self.generator.y_vocab.vocab.itos_])
 
 	def build_input_target(self, task_name):
-		df = pd.read_csv(f'../dataset/itersolv/{task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
+		df = pd.read_csv(f'../dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
 		inputs = df['input'].tolist()[:self.kwargs['batch_size']]
 		target = df['target'].tolist()[:self.kwargs['batch_size']]
 		self.X = self.generator.str_to_batch(batch)
 		self.target = self.generator.str_to_batch(target, x=False)
 
+	@property
+	def task(self):
+		if isinstance(self.generator, AlgebraicExpressionGenerator):
+			return 'algebra'
+		elif isinstance(self.generator, ArithmeticExpressionGenerator):
+			return 'arithmetic'
+		elif isinstance(self.generator, ListopsGenerator):
+			return 'listops'
+	
     def __init__(self, generator):
     	self.generator = generator
     	self.kwargs = kwargs
