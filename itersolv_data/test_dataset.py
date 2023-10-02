@@ -31,7 +31,7 @@ class TestDataset(torch.utils.data.Dataset):
         elif isinstance(self.generator, ListopsGenerator):
             return 'listops'
     
-    def __init__(self, generator):
+    def __init__(self, generator, kwargs):
         self.generator = generator
         self.kwargs = kwargs
         self.in_vocabulary = None
