@@ -1,7 +1,7 @@
 from .AbstractGenerator import _PAD
-from algebra import AlgebraicExpressionGenerator
-from arithmetic import ArithmeticExpressionGenerator
-from listops import ListopsGenerator
+from .algebra import AlgebraicExpressionGenerator
+from .arithmetic import ArithmeticExpressionGenerator
+from .listops import ListopsGenerator
 import torch
 import framework
 import pandas as pd
