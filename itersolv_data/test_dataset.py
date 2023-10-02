@@ -47,7 +47,7 @@ class TestDataset(torch.utils.data.Dataset):
             pad_idx = self.generator.y_vocab[_PAD]
             return (batch != pad_idx).sum(-1)
 
-        token_X = self.X.argmax(-1)[idx].unsqueeze(1)
+        token_X = self.X.argmax(-1)[idx].unsqueeze(0)
         token_Y = self.target.argmax(-1)[idx]
         return {
                 "in": token_X,
