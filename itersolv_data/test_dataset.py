@@ -42,15 +42,15 @@ class TestDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.X.size(0)
 
-    def __getitem__(self):
+    def __getitem__(self, idx):
         def _sample_len(batch):
             pad_idx = self.generator.y_vocab[_PAD]
             return (batch != pad_idx).sum(-1)
 
-        token_X = self.X.argmax(-1)
-        token_Y = self.target.argmax(-1)
+        token_X = self.X.argmax(-1)[idx].unsqueeze(1)
+        token_Y = self.target.argmax(-1)[idx]
         return {
-                "in": token_X.T,
+                "in": token_X,
                 "out": token_Y,
                 "in_len": _sample_len(token_X),
                 "out_len": _sample_len(token_Y),
