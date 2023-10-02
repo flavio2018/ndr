@@ -15,7 +15,7 @@ class TestDataset(torch.utils.data.Dataset):
             self.in_vocabulary = framework.data_structures.WordVocabulary([c for c in self.generator.x_vocab.vocab.itos_])
             self.out_vocabulary = framework.data_structures.WordVocabulary([c for c in self.generator.y_vocab.vocab.itos_])
 
-    def build_input_target(self, task_name):
+    def build_input_target(self):
         df = pd.read_csv(f'../dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
         inputs = df['input'].tolist()[:self.kwargs['batch_size']]
         target = df['target'].tolist()[:self.kwargs['batch_size']]
@@ -23,7 +23,7 @@ class TestDataset(torch.utils.data.Dataset):
         self.target = self.generator.str_to_batch(target, x=False)
 
     @property
-    def task(self):
+    def task_name(self):
         if isinstance(self.generator, AlgebraicExpressionGenerator):
             return 'algebra'
         elif isinstance(self.generator, ArithmeticExpressionGenerator):
@@ -37,7 +37,7 @@ class TestDataset(torch.utils.data.Dataset):
         self.in_vocabulary = None
         self.out_vocabulary = None
         self.construct_vocab()
-        self.build_input_target(task_name)
+        self.build_input_target()
 
     def __len__(self):
         return self.X.size(0)
