@@ -29,7 +29,7 @@ def main():
 
     task_name = task.valid_sets.ood.task_name
     print(accuracy_table)
-    accuracy_table.to_csv(f'../test_ndr_outputs/accuracy_tables/ndr/{task_name}.csv')
+    accuracy_table.to_csv(f'../test_ndr_outputs/accuracy_tables/{task_name}.csv')
 
 
 if __name__ == '__main__':
