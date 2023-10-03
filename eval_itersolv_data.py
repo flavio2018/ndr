@@ -1,3 +1,4 @@
+import pandas as pd
 from main import initialize
 from itersolv_data.test_dataset import TestDataset
 
@@ -14,9 +15,7 @@ def main():
         "exact": True,
     }
 
-    accuracy_table = [[None, None, None],
-                      [None, None, None],
-                      [None, None, None]]
+    accuracy_table = pd.DataFrame(index=[2, 3, 4], columns=[2, 3, 4])
 
     for nesting in range(2, 5):
         for n_operands in range(2, 5):
@@ -26,10 +25,11 @@ def main():
             task.create_loaders()
             test, loss = task.validate_on_name('ood')
             print(f'ood_{nesting}_{n_operands}', test.accuracy)
-            accuracy_table[nesting-2][n_operands-2] = test.accuracy
+            accuracy_table[nesting][n_operands] = test.accuracy
 
+    task_name = task.valid_sets.ood.task_name
     print(accuracy_table)
-    return
+    accuracy_table.to_csv(f'../test_ndr_outputs/accuracy_tables/ndr/{task_name}.csv')
 
 
 if __name__ == '__main__':
