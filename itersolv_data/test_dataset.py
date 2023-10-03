@@ -28,7 +28,7 @@ class TestDataset(torch.utils.data.IterableDataset):
             return 'algebra'
         elif isinstance(self.generator, ArithmeticExpressionGenerator):
             return 'arithmetic'
-        elif isinstance(self.generator, ListopsGenerator):
+        elif isinstance(self.generator, ListOpsGenerator):
             return 'listops'
     
     def __init__(self, generator, kwargs):
