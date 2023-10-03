@@ -18,7 +18,7 @@ class TestDataset(torch.utils.data.IterableDataset):
     def build_input_target(self):
         df = pd.read_csv(f'dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
         inputs = df['input'].tolist()[:self.kwargs['batch_size']]
-        target = df['target'].tolist()[:self.kwargs['batch_size']]
+        target = df['target'].astype(str).tolist()[:self.kwargs['batch_size']]
         self.X = self.generator.str_to_batch(inputs)
         self.target = self.generator.str_to_batch(target, x=False)
 
