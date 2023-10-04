@@ -17,7 +17,7 @@ class TestDataset(torch.utils.data.IterableDataset):
 
     def build_input_target_slices(self):
         df = pd.read_csv(f'dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
-        bs = bs
+        bs = self.kwargs['batch_size']
         
         num_slices = len(df) // bs
         if (len(df) % bs != 0):
