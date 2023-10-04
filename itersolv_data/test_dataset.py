@@ -48,7 +48,7 @@ class TestDataset(torch.utils.data.IterableDataset):
         self.build_input_target_slices()
 
     def __len__(self):
-        return self.X.size(0)
+        return sum([len(slice) for slice in self.X_slices])
 
     def __iter__(self):
         return self._generate_dict()
