@@ -7,6 +7,21 @@ from itersolv_data.wrapper import GeneratorWrapper
 def main():
     helper, task = initialize()
 
+    if task.helper.args.itersolv_testall:
+        valid_ood_kwargs = {
+            "batch_size": task.helper.args.batch_size,
+            "nesting": 'all',
+            "num_operands": 'all',
+            "split": 'valid',
+            "s2e_baseline": True,
+            "exact": False,
+        }
+        task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
+        task.create_loaders()
+        test, loss = task.validate_on_name('ood')
+        print(f'ood_{nesting}_{n_operands}', test.accuracy)
+        return
+
     valid_ood_kwargs = {
         "batch_size": task.helper.args.batch_size,
         "nesting": 2,

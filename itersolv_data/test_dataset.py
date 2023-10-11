@@ -16,7 +16,10 @@ class TestDataset(torch.utils.data.IterableDataset):
             self.out_vocabulary = framework.data_structures.WordVocabulary([c for c in self.generator.y_vocab.vocab.itos_])
 
     def build_input_target_slices(self):
-        df = pd.read_csv(f'dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
+        if self.kwargs['nesting'] == 'all':
+            df = pd.read_csv(f'dataset/itersolv/{self.task_name}/test/all.csv')
+        else:
+            df = pd.read_csv(f'dataset/itersolv/{self.task_name}/test/nesting-{self.kwargs["nesting"]}_num-operands-{self.kwargs["num_operands"]}.csv')
         bs = self.kwargs['batch_size']
         self.X_slices, self.target_slices = [], []
         
