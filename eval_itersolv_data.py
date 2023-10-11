@@ -11,9 +11,9 @@ def main():
         "batch_size": task.helper.args.batch_size,
         "nesting": 2,
         "num_operands": 2,
-        "split": 'test',
+        "split": 'valid',
         "s2e_baseline": True,
-        "exact": True,
+        "exact": False,
     }
 
     accuracy_table = pd.DataFrame(index=[2, 3, 4], columns=[2, 3, 4])
