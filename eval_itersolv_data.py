@@ -19,7 +19,7 @@ def main():
         task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
         task.create_loaders()
         test, loss = task.validate_on_name('ood')
-        print(f'ood_{nesting}_{n_operands}', test.accuracy)
+        print(f'testall_acc', test.accuracy)
         return
 
     valid_ood_kwargs = {
