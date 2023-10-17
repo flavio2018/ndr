@@ -60,3 +60,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
                 "in_len": _sample_len(token_X),
                 "out_len": _sample_len(token_Y),
             }
+
+    def start_test(self) -> TextClassifierTestState:
+        return TextClassifierTestState(lambda x: " ".join(self.in_vocabulary(x)),
+                                       lambda x: "".join(self.out_vocabulary(x)), max_bad_samples=100)
