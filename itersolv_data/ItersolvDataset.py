@@ -18,6 +18,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.out_vocabulary = None
         self.construct_vocab()
         self.batch_size = batch_size
+        self.split = split
 
         files_glob = glob(f'dataset/itersolv/{task_name}/{task_name}_*_{split}.csv')
         self.df = pd.concat([pd.read_csv(f) for f in files_glob])
@@ -38,7 +39,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
         
         def _continue():
-            if self.kwargs['split'] == 'train':
+            if self.split == 'train':
                 return True
             else:
                 self.curr_iter += 1
