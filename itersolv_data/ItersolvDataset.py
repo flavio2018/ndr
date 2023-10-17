@@ -17,6 +17,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.in_vocabulary = None
         self.out_vocabulary = None
         self.construct_vocab()
+        self.batch_size = batch_size
 
         files_glob = glob(f'dataset/itersolv/{task_name}/{task_name}_*_{split}.csv')
         self.df = pd.concat([pd.read_csv(f) for f in files_glob])
@@ -28,7 +29,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __len__(self):
         # used in test
-        return len(self.df) // batch_size
+        return len(self.df) // self.batch_size
 
     def _generate_dict(self):
         def _sample_len(batch):
@@ -41,12 +42,12 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
                 return True
             else:
                 self.curr_iter += 1
-                return self.curr_iter <= len(self.df) // batch_size
+                return self.curr_iter <= len(self.df) // self.batch_size
 
         self.curr_iter = 0
         
         while _continue():
-            batch_df = self.df.sample(n=batch_size)
+            batch_df = self.df.sample(n=self.batch_size)
             X, Y = batch_df['X'].tolist(), batch_df['Y'].tolist()
             Y = [f'?{y}.' for y in Y]   # add SOS and EOS
             batch_X, batch_Y = self.generator.str_to_batch(X), self.generator.str_to_batch(X, x=False)
