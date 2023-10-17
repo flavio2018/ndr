@@ -52,9 +52,9 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
             batch_df = self.df.sample(n=self.batch_size)
             X, Y = batch_df['X'].tolist(), batch_df['Y'].tolist()
             # Y = [f'?{y}.' for y in Y]   # add SOS and EOS
+            print(X[:10], Y[:10])
             batch_X, batch_Y = self.generator.str_to_batch(X), self.generator.str_to_batch(X, x=False)
             token_X, token_Y = batch_X.argmax(-1), batch_Y.argmax(-1)
-            breakpoint()
             yield {
                 "in": token_X.T,
                 "out": token_Y,
