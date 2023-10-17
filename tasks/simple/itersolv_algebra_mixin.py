@@ -1,5 +1,6 @@
 from itersolv_data.algebra import AlgebraicExpressionGenerator
 from itersolv_data.wrapper import GeneratorWrapper
+from itersolv_data.ItersolvDataset import ItersolvDataset
 
 
 class IterSolvAlgebraMixin:
@@ -9,29 +10,9 @@ class IterSolvAlgebraMixin:
         generator = AlgebraicExpressionGenerator('cuda', specials_in_x=True,
                                                  variables='xy',
                                                  coeff_variables='ab')
-        train_kwargs = {
-            "batch_size": self.helper.args.batch_size,
-            "nesting": self.helper.args.itersolv_arithmetics.iid_nesting,
-            "num_operands": self.helper.args.itersolv_arithmetics.iid_num_operands,
-            "split": 'train',
-            "s2e_baseline": True,
-        }
-        self.train_set = GeneratorWrapper(generator, train_kwargs)
+        
+        self.train_set = ItersolvDataset(generator, 'algebra', 'train', self.helper.args.batch_size)
 
-        valid_iid_kwargs = {
-            "batch_size": self.helper.args.batch_size,
-            "nesting": self.helper.args.itersolv_arithmetics.iid_nesting,
-            "num_operands": self.helper.args.itersolv_arithmetics.iid_num_operands,
-            "split": 'valid',
-            "s2e_baseline": True,
-        }
-        self.valid_sets.iid = GeneratorWrapper(generator, valid_iid_kwargs)
-
-        valid_ood_kwargs = {
-            "batch_size": self.helper.args.batch_size,
-            "nesting": self.helper.args.itersolv_arithmetics.ood_nesting,
-            "num_operands": self.helper.args.itersolv_arithmetics.ood_num_operands,
-            "split": 'valid',
-            "s2e_baseline": True,
-        }
-        self.valid_sets.ood = GeneratorWrapper(generator, valid_ood_kwargs)
+        self.valid_sets.iid = ItersolvDataset(generator, 'algebra', 'valid_iid', self.helper.args.batch_size)
+        
+        self.valid_sets.ood = ItersolvDataset(generator, 'algebra', 'valid_ood', self.helper.args.batch_size)
