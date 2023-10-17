@@ -3,6 +3,7 @@ import torch
 from dataset.sequence import TextClassifierTestState
 from glob import glob
 import pandas as pd
+from .AbstractGenerator import _PAD
 
 
 class ItersolvDataset(torch.utils.data.IterableDataset):
