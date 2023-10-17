@@ -162,6 +162,9 @@ class Task:
         return self.validate_on(self.valid_sets[name], self.valid_loaders[name])
 
     def update_best_accuracies(self, name: str, accuracy: float, loss: float):
+        if name not in self.helper.state.best_losses:
+            self.helper.state.best_losses[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
+
         if isinstance(self.helper.state.best_losses[name], dict):
             cur_best_loss = self.helper.state.best_losses[name]["loss"]
             best_loss_iter = self.helper.state.best_losses[name]["iter"]
@@ -169,9 +172,12 @@ class Task:
             cur_best_loss = self.helper.state.best_losses[name].loss
             best_loss_iter = self.helper.state.best_losses[name].iter
 
-        if name not in self.helper.state.best_losses or loss < cur_best_loss:
-                self.helper.state.best_losses[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
-
+        if loss < cur_best_loss:
+            self.helper.state.best_losses[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
+        
+        if name not in self.helper.state.best_accuracies:
+            self.helper.state.best_accuracies[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
+        
         if isinstance(self.helper.state.best_accuracies[name], dict):
             cur_best_acc = self.helper.state.best_accuracies[name]["accuracy"]
             best_acc_iter = self.helper.state.best_accuracies[name]["iter"]
@@ -179,7 +185,7 @@ class Task:
             cur_best_acc = self.helper.state.best_accuracies[name].accuracy
             best_acc_iter = self.helper.state.best_accuracies[name].iter
 
-        if name not in self.helper.state.best_accuracies or accuracy > cur_best_acc:
+        if accuracy > cur_best_acc:
             self.helper.state.best_accuracies[name] = LastBestMarker(self.helper.state.iter, loss, accuracy)
 
         return {
