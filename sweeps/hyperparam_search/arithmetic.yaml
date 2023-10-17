@@ -76,11 +76,3 @@ parameters:
     value: 3
   trafo_classifier.norm_att:
     value: 0
-  itersolv_arithmetics.iid_nesting:
-    value: 2
-  itersolv_arithmetics.iid_num_operands:
-    value: 3
-  itersolv_arithmetics.ood_nesting:
-    value: 4
-  itersolv_arithmetics.ood_num_operands:
-    value: 4
