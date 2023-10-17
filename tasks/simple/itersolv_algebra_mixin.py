@@ -1,5 +1,4 @@
 from itersolv_data.algebra import AlgebraicExpressionGenerator
-from itersolv_data.wrapper import GeneratorWrapper
 from itersolv_data.ItersolvDataset import ItersolvDataset
 
 

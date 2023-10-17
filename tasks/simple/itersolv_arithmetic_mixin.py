@@ -1,5 +1,5 @@
 from itersolv_data.arithmetic import ArithmeticExpressionGenerator
-from itersolv_data.wrapper import GeneratorWrapper
+from itersolv_data.ItersolvDataset import ItersolvDataset
 
 
 class IterSolvArithmeticMixin:
