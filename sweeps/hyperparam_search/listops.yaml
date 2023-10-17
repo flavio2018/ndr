@@ -76,11 +76,3 @@ parameters:
     value: 1
   trafo_classifier.norm_att:
     value: 0
-  itersolv_listops.iid_nesting:
-    value: 2
-  itersolv_listops.iid_num_operands:
-    value: 3
-  itersolv_listops.ood_nesting:
-    value: 4
-  itersolv_listops.ood_num_operands:
-    value: 4
