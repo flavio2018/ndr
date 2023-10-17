@@ -54,6 +54,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
             # Y = [f'?{y}.' for y in Y]   # add SOS and EOS
             batch_X, batch_Y = self.generator.str_to_batch(X), self.generator.str_to_batch(X, x=False)
             token_X, token_Y = batch_X.argmax(-1), batch_Y.argmax(-1)
+            breakpoint()
             yield {
                 "in": token_X.T,
                 "out": token_Y,
