@@ -37,8 +37,8 @@ def main():
         for n_operands in range(2, 5):
             valid_ood_kwargs["nesting"] = nesting
             valid_ood_kwargs["num_operands"] = n_operands
-            # task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
-            task.valid_sets.ood = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
+            task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
+            # task.valid_sets.ood = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
             task.create_loaders()
             test, loss = task.validate_on_name('ood')
             print(f'ood_{nesting}_{n_operands}', test.accuracy)
