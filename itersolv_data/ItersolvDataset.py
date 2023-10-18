@@ -31,7 +31,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __len__(self):
         # used in test
-        return len(self.df) // self.batch_size
+        return len(self.df)
 
     def _generate_dict(self):
         def _sample_len(batch):
@@ -51,8 +51,6 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         while _continue():
             batch_df = self.df.sample(n=self.batch_size)
             X, Y = batch_df['X'].astype(str).tolist(), batch_df['Y'].astype(str).tolist()
-            if 'valid' in self.split:
-                print(X[:10], Y[:10])
             batch_X, batch_Y = self.generator.str_to_batch(X), self.generator.str_to_batch(Y, x=False)
             token_X, token_Y = batch_X.argmax(-1), batch_Y.argmax(-1)
             yield {
