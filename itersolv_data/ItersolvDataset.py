@@ -18,7 +18,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.in_vocabulary = None
         self.out_vocabulary = None
         self.construct_vocab()
-        self.batch_size = batch_size if split == 'train' else batch_size // 8
+        self.batch_size = batch_size if split == 'train' else batch_size // 32
         self.split = split
 
         files_glob = glob(f'dataset/itersolv/{task_name}/{task_name}_*_{split}.csv')
