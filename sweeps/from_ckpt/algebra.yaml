@@ -4,7 +4,7 @@ command:
   - python3
   - ${program}
   - ${args}
-method: bayes
+method: grid
 metric:
   name: validation/ood/accuracy/total
   goal: maximize
