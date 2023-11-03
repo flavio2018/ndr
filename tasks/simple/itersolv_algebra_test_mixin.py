@@ -9,11 +9,5 @@ class IterSolvAlgebraTestMixin:
         generator = AlgebraicExpressionGenerator('cuda', specials_in_x=True,
                                                  variables='xy',
                                                  coeff_variables='ab')
-        train_kwargs = {
-            "batch_size": self.helper.args.batch_size,
-            "nesting": 2,
-            "num_operands": 3,
-            "split": 'train',
-            "s2e_baseline": True,
-        }
-        self.train_set = GeneratorWrapper(generator, train_kwargs)
+        
+        self.train_set = ItersolvDataset(generator, 'algebra', 'train', self.helper.args.batch_size)
