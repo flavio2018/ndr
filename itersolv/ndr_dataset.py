@@ -17,9 +17,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.specials_in_x = specials_in_x
         self.sos = sos
         self.eos = eos
-
-        self.df = pd.read_csv(f'itersolv/datasets/{dataset_name}/{split}.csv')
-        print(f"{len(self.df)} total samples in {split} split.")
+        self._build_dataset_df()
         self._build_vocabulary()
         self._build_ndr_vocab()
 
@@ -28,6 +26,12 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __len__(self):
         return len(self.df)
+
+    def _build_dataset_df(self):
+        self.df = pd.read_csv(f'../datasets/{dataset_name}/{split}.csv')
+        self.df['X'] = self.df['X'].astype('str')
+        self.df['Y'] = self.df['Y'].astype('str')
+        print(f"{len(self.df)} total samples in {split} split.")
 
     def _build_vocabulary(self):
         x_vocab_chars, y_vocab_chars = self._get_vocabs_chars()
