@@ -2,7 +2,7 @@ import torch
 import pandas as pd
 import framework
 from dataset.sequence import TextClassifierTestState
-from vocabulary import Vocabulary
+from itersolv.vocabulary import Vocabulary
 
 
 class ItersolvDataset(torch.utils.data.IterableDataset):
