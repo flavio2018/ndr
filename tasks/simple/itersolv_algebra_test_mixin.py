@@ -1,13 +1,16 @@
-from itersolv.algebra import AlgebraicExpressionGenerator
-from itersolv.wrapper import GeneratorWrapper
+from itersolv.ndr_dataset import ItersolvDataset
 
 
 class IterSolvAlgebraTestMixin:
 
     def create_datasets(self):
         self.batch_dim = 1
-        generator = AlgebraicExpressionGenerator('cuda', specials_in_x=True,
-                                                 variables='xy',
-                                                 coeff_variables='ab')
         
-        self.train_set = ItersolvDataset(generator, 'algebra', 'train', self.helper.args.batch_size)
+        self.train_set = ItersolvDataset(
+            'algebra_solve_easy',
+            'train',
+            self.helper.args.batch_size,
+            self.helper.args.test_batch_size,
+            'cuda',
+            sos=False,
+            eos=False)
