@@ -2,7 +2,7 @@ import torch
 import pandas as pd
 import framework
 from dataset.sequence import TextClassifierTestState
-from itersolv.vocabulary import Vocabulary
+from itersolv.vocabulary import Vocabulary, PAD
 
 
 class ItersolvDataset(torch.utils.data.IterableDataset):
@@ -68,7 +68,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def _generate_dict(self):
         def _sample_len(batch):
-            pad_idx = self.vocabulary.y_vocab[_PAD]
+            pad_idx = self.vocabulary.y_vocab[PAD]
             return (batch != pad_idx).sum(-1)
 
         def _continue():
