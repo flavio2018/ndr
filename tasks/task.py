@@ -88,7 +88,6 @@ class Task:
 
     def create_train_loader_bs(self, loader: torch.utils.data.Dataset, batch_size: int, seed: Optional[int] = None) \
                               -> torch.utils.data.DataLoader:
-        loader.batch_size = batch_size
         return torch.utils.data.DataLoader(loader, collate_fn=lambda l: l[0])
 
     #     return torch.utils.data.DataLoader(loader, batch_size=batch_size,
