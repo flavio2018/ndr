@@ -18,7 +18,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 		self.sos = sos
 		self.eos = eos
 
-		self.df = pd.read_csv(f'../datasets/{dataset_name}/{split}.csv')
+		self.df = pd.read_csv(f'datasets/{dataset_name}/{split}.csv')
 		print(f"{len(self.df)} total samples in {split} split.")
 		self._build_vocabulary()
 		self._build_ndr_vocab()

@@ -1,7 +1,7 @@
 import pandas as pd
 from main import initialize
-from itersolv_data.test_dataset import TestDataset
-from itersolv_data.wrapper import GeneratorWrapper
+from itersolv.test_dataset import TestDataset
+from itersolv.wrapper import GeneratorWrapper
 
 
 def main():

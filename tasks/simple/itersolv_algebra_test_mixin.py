@@ -1,5 +1,5 @@
-from itersolv_data.algebra import AlgebraicExpressionGenerator
-from itersolv_data.wrapper import GeneratorWrapper
+from itersolv.algebra import AlgebraicExpressionGenerator
+from itersolv.wrapper import GeneratorWrapper
 
 
 class IterSolvAlgebraTestMixin:

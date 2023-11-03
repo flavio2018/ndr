@@ -1,5 +1,5 @@
-from itersolv_data.listops import ListOpsGenerator
-from itersolv_data.ItersolvDataset import ItersolvDataset
+from itersolv.listops import ListOpsGenerator
+from itersolv.ItersolvDataset import ItersolvDataset
 
 
 class IterSolvListopsTestMixin:

@@ -1,4 +1,4 @@
-from itersolv_data.ndr_dataset import ItersolvDataset
+from itersolv.ndr_dataset import ItersolvDataset
 
 
 class IterSolvListopsMixin:
