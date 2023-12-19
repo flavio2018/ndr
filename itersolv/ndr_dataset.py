@@ -34,30 +34,45 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         print(f"{len(self.df)} total samples in {split} split.")
 
     def _build_vocabulary(self):
-        x_vocab_chars, y_vocab_chars = self._get_vocabs_chars()
-        self.vocabulary = Vocabulary(x_vocab_chars, y_vocab_chars, self.device, self.sos, self.eos, self.specials_in_x)
+        x_vocab_tokens, y_vocab_tokens = self.get_vocab_tokens()
+        tokenizer = 'listops' if 'listops' in self.dataset_name else 'char'
+        self.vocabulary = Vocabulary(x_vocab_tokens, y_vocab_tokens, self.device, self.sos, self.eos, self.specials_in_x, tokenizer=tokenizer)
 
     def _build_ndr_vocab(self):
         if self.in_vocabulary is None:
             self.in_vocabulary = framework.data_structures.WordVocabulary([c for c in self.vocabulary.x_vocab.vocab.itos_])
             self.out_vocabulary = framework.data_structures.WordVocabulary([c for c in self.vocabulary.y_vocab.vocab.itos_])
     
+    def get_vocab_tokens(self):
+        if 'listops' in self.dataset_name:
+            return self._get_vocab_tokens_listops()
+        else:
+            return self._get_vocabs_chars()
+
+    def _get_vocab_tokens_listops(self):
+        x_tokens_sets = self.df['X'].apply(Vocabulary._tokenize_listops).apply(lambda s: set(s))
+        y_tokens_sets = self.df['Y'].apply(Vocabulary._tokenize_listops).apply(lambda s: set(s))
+        return self._build_vocab_tokens_lists(x_tokens_sets, y_tokens_sets)
+
     def _get_vocabs_chars(self):
         x_chars_sets = self.df['X'].apply(lambda s: set(s))
         y_chars_sets = self.df['Y'].apply(lambda s: set(s))
+        return self._build_vocab_tokens_lists(x_chars_sets, y_chars_sets)
 
-        x_vocab_chars = set()
-        for char_set in x_chars_sets:
-            x_vocab_chars |= char_set
+    @staticmethod
+    def _build_vocab_tokens_lists(x_tokens_sets, y_tokens_sets):
+        x_vocab_tokens = set()
+        for token_set in x_tokens_sets:
+            x_vocab_tokens |= token_set
 
-        y_vocab_chars = set()
-        for char_set in y_chars_sets:
-            y_vocab_chars |= char_set
+        y_vocab_tokens = set()
+        for token_set in y_tokens_sets:
+            y_vocab_tokens |= token_set
 
-        x_vocab_chars = sorted(list(x_vocab_chars))
-        y_vocab_chars = sorted(list(y_vocab_chars))
+        x_vocab_tokens_list = sorted(list(x_vocab_tokens))
+        y_vocab_tokens_list = sorted(list(y_vocab_tokens))
 
-        return x_vocab_chars, y_vocab_chars
+        return x_vocab_tokens_list, y_vocab_tokens_list
 
     @property
     def batch_size(self):
