@@ -8,6 +8,7 @@ from itersolv.vocabulary import Vocabulary, PAD
 class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __init__(self, dataset_name, split, train_batch_size, eval_batch_size, device, sos, eos, specials_in_x=False):
+        self.dataset_name = dataset_name
         self.in_vocabulary = None
         self.out_vocabulary = None
         self.train_batch_size = train_batch_size
