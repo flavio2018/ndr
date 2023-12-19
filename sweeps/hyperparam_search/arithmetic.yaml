@@ -6,7 +6,7 @@ command:
   - ${args}
 method: bayes
 metric:
-  name: validation/ood/accuracy/total
+  name: validation/all/accuracy/total
   goal: maximize
 parameters:
   log:
