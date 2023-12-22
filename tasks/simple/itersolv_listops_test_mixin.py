@@ -7,7 +7,7 @@ class IterSolvListopsTestMixin:
         self.batch_dim = 1
         
         self.train_set = ItersolvDataset(
-            'listops_solve_easy',
+            'listops',
             'train',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,

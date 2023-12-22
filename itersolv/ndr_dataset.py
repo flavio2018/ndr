@@ -7,7 +7,7 @@ from itersolv.vocabulary import Vocabulary, PAD
 
 class ItersolvDataset(torch.utils.data.IterableDataset):
 
-    def __init__(self, dataset_name, split, train_batch_size, eval_batch_size, device, sos, eos, specials_in_x=False):
+    def __init__(self, dataset_name, split, train_batch_size, eval_batch_size, device, sos, eos, difficulty_split=None,, specials_in_x=False):
         self.dataset_name = dataset_name
         self.in_vocabulary = None
         self.out_vocabulary = None
@@ -18,9 +18,11 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.specials_in_x = specials_in_x
         self.sos = sos
         self.eos = eos
+        self.difficulty_split = difficulty_split
         self._build_dataset_df(dataset_name, split)
         self._build_vocabulary()
         self._build_ndr_vocab()
+        self._slice_difficulty_split()
 
     def __iter__(self):
         return self._generate_dict()
@@ -33,6 +35,13 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.df['X'] = self.df['X'].astype('str')
         self.df['Y'] = self.df['Y'].astype('str')
         print(f"{len(self.df)} total samples in {split} split.")
+
+    def _slice_difficulty_split(self):
+        if self.difficulty_split is not None:
+            logging.info(f"Slicing difficulty split: {self.difficulty_split}")
+            nesting, num_operands = self.difficulty_split
+            self.df = self.df.loc[(self.df['nesting'] == nesting) & (self.df['num_operands'] == num_operands)]  
+        logging.info(f"{len(self.df)} total samples in {self.split} split.")
 
     def _build_vocabulary(self):
         x_vocab_tokens, y_vocab_tokens = self.get_vocab_tokens()

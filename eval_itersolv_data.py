@@ -1,50 +1,53 @@
 import pandas as pd
 from main import initialize
-from itersolv.test_dataset import TestDataset
-from itersolv.wrapper import GeneratorWrapper
+from itersolv.ndr_dataset import ItersolvDataset
+# from itersolv.test_dataset import TestDataset
+# from itersolv.wrapper import GeneratorWrapper
 
 
 def main():
     helper, task = initialize()
+    task_name = task.train_set.dataset_name
 
-    if task.helper.args.itersolv_testall:
-        valid_ood_kwargs = {
-            "batch_size": task.helper.args.batch_size,
-            "nesting": 'all',
-            "num_operands": 'all',
-            "split": 'valid',
-            "s2e_baseline": True,
-            "exact": False,
-        }
-        task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
+    if task_name == 'listops':
+        difficulty_splits = [[1, 2], [1, 3], [1, 4],
+                             [2, 2], [2, 3], [2, 4],
+                             [3, 2], [3, 3], [3, 4],
+                             [4, 2], [4, 3], [4, 4]]
+        accuracy_table = pd.DataFrame(index=[1, 2, 3, 4], columns=[2, 3, 4])
+
+    elif task_name == 'arithmetic':
+        difficulty_splits = [[1, 2], [2, 2], [3, 2],
+                             [4, 2], [5, 2], [6, 2]]
+        accuracy_table = pd.DataFrame(index=[1, 2, 3, 4, 5, 6], columns=[2])                             
+
+    task.valid_sets.ood = ItersolvDataset(
+        task_name,
+        'test', 
+        self.helper.args.batch_size,
+        self.helper.args.test_batch_size,
+        'cuda',
+        sos=False,
+        eos=False)
+    task.create_loaders()
+    test, loss = task.validate_on_name('ood')
+    print(f'testall_acc', test.accuracy)
+
+    for difficulty_split in difficulty_splits:
+        task.valid_sets.ood = ItersolvDataset(
+            task_name,
+            'test', 
+            self.helper.args.batch_size,
+            self.helper.args.test_batch_size,
+            'cuda',
+            sos=False,
+            eos=False,
+            difficulty_split=difficulty_split)
         task.create_loaders()
         test, loss = task.validate_on_name('ood')
-        print(f'testall_acc', test.accuracy)
-        return
+        print(f'ood_{nesting}_{n_operands}', test.accuracy)
+        accuracy_table[nesting][n_operands] = test.accuracy
 
-    valid_ood_kwargs = {
-        "batch_size": task.helper.args.batch_size,
-        "nesting": 2,
-        "num_operands": 2,
-        "split": 'test',
-        "s2e_baseline": True,
-        "exact": True,
-    }
-
-    accuracy_table = pd.DataFrame(index=[2, 3, 4], columns=[2, 3, 4])
-
-    for nesting in range(2, 5):
-        for n_operands in range(2, 5):
-            valid_ood_kwargs["nesting"] = nesting
-            valid_ood_kwargs["num_operands"] = n_operands
-            task.valid_sets.ood = TestDataset(task.train_set.generator, valid_ood_kwargs)
-            # task.valid_sets.ood = GeneratorWrapper(task.train_set.generator, valid_ood_kwargs)
-            task.create_loaders()
-            test, loss = task.validate_on_name('ood')
-            print(f'ood_{nesting}_{n_operands}', test.accuracy)
-            accuracy_table[nesting][n_operands] = test.accuracy
-
-    task_name = task.valid_sets.ood.task_name
     print(accuracy_table)
     accuracy_table.to_csv(f'../test_ndr_outputs/accuracy_tables/{task_name}.csv')
 

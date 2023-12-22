@@ -7,7 +7,7 @@ class IterSolvArithmeticTestMixin:
         self.batch_dim = 1
         
         self.train_set = ItersolvDataset(
-            'arithmetic_solve_easy',
+            'arithmetic',
             'train',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
