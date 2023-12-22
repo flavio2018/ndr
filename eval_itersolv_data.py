@@ -47,7 +47,7 @@ def main():
         task.create_loaders()
         test, loss = task.validate_on_name('ood')
         print(f'ood_{nesting}_{n_operands}', test.accuracy)
-        accuracy_table[nesting][n_operands] = test.accuracy
+        accuracy_table.loc[nesting, n_operands] = test.accuracy
 
     print(accuracy_table)
     accuracy_table.to_csv(f'../test_ndr_outputs/accuracy_tables/{task_name}.csv')
