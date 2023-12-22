@@ -24,8 +24,8 @@ def main():
     task.valid_sets.ood = ItersolvDataset(
         task_name,
         'test', 
-        self.helper.args.batch_size,
-        self.helper.args.test_batch_size,
+        helper.args.batch_size,
+        helper.args.test_batch_size,
         'cuda',
         sos=False,
         eos=False)
@@ -37,8 +37,8 @@ def main():
         task.valid_sets.ood = ItersolvDataset(
             task_name,
             'test', 
-            self.helper.args.batch_size,
-            self.helper.args.test_batch_size,
+            helper.args.batch_size,
+            helper.args.test_batch_size,
             'cuda',
             sos=False,
             eos=False,
