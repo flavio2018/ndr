@@ -38,10 +38,10 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def _slice_difficulty_split(self):
         if self.difficulty_split is not None:
-            logging.info(f"Slicing difficulty split: {self.difficulty_split}")
+            print(f"Slicing difficulty split: {self.difficulty_split}")
             nesting, num_operands = self.difficulty_split
             self.df = self.df.loc[(self.df['nesting'] == nesting) & (self.df['num_operands'] == num_operands)]  
-        logging.info(f"{len(self.df)} total samples in {self.split} split.")
+        print(f"{len(self.df)} total samples in {self.split} split.")
 
     def _build_vocabulary(self):
         x_vocab_tokens, y_vocab_tokens = self.get_vocab_tokens()
