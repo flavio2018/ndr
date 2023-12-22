@@ -34,6 +34,7 @@ def main():
     print(f'testall_acc', test.accuracy)
 
     for difficulty_split in difficulty_splits:
+        nesting, n_operands = difficulty_split
         task.valid_sets.ood = ItersolvDataset(
             task_name,
             'test', 
