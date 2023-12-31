@@ -76,7 +76,6 @@ class TrainingHelper:
         self.arg_parser.add_argument("-restore", default="")
         self.arg_parser.add_argument("-resume", default=False)
         self.arg_parser.add_argument("-wandb_bug_workaround", default=False)
-        self.arg_parser.add_argument("-itersolv_testall", default=False)
 
     def create_dirs(self):
         self.dirs = self.Dirs()

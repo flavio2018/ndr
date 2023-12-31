@@ -7,7 +7,7 @@ class IterSolvAlgebraMixin:
         self.batch_dim = 1
         
         self.train_set = ItersolvDataset(
-            'algebra_solve_easy',
+            'algebra',
             'train',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
@@ -16,7 +16,7 @@ class IterSolvAlgebraMixin:
             eos=False)
 
         self.valid_sets.iid = ItersolvDataset(
-            'algebra_solve_easy',
+            'algebra',
             'valid_iid',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
@@ -25,7 +25,16 @@ class IterSolvAlgebraMixin:
             eos=False)
         
         self.valid_sets.ood = ItersolvDataset(
-            'algebra_solve_easy',
+            'algebra',
+            'valid_ood',
+            self.helper.args.batch_size,
+            self.helper.args.test_batch_size,
+            'cuda',
+            sos=False,
+            eos=False)
+        
+        self.valid_sets.all = ItersolvDataset(
+            'algebra',
             'valid_ood',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
