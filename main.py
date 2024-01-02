@@ -85,7 +85,7 @@ def register_args(parser: framework.helpers.ArgumentParser):
     ])
 
 def initialize(restore: Optional[str] = None):
-    helper = framework.helpers.TrainingHelper(wandb_project_name="length_generalization",
+    helper = framework.helpers.TrainingHelper(wandb_project_name="itersolv",
                                               register_args=register_args, extra_dirs=["export", "model_weights"],
                                               log_async=True, restore=restore)
 
