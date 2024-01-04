@@ -1,4 +1,4 @@
-import framework
+(median_length > median_length_start//2) and (median_length_start > 200):import framework
 from interfaces import Result, ModelInterface
 import torch
 import torch.utils.data
@@ -148,6 +148,7 @@ class Task:
             test = set.start_test()
             for d in tqdm(loader):
                 d = self.prepare_data(d)
+                breakpoint()
                 res, _ = self.run_model(d)
                 digits = self.model_interface.decode_outputs(res)
                 loss_sum += res.loss.sum().item() * res.batch_size
