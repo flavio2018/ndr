@@ -1,4 +1,4 @@
-(median_length > median_length_start//2) and (median_length_start > 200):import framework
+import framework
 from interfaces import Result, ModelInterface
 import torch
 import torch.utils.data
