@@ -16,7 +16,7 @@ def main():
                              [4, 2], [4, 3], [4, 4]]
         accuracy_table = pd.DataFrame(index=[1, 2, 3, 4], columns=[2, 3, 4])
 
-    elif task_name == 'arithmetic':
+    elif task_name in ['arithmetic', 'algebra']:
         difficulty_splits = [[1, 2], [2, 2], [3, 2],
                              [4, 2], [5, 2], [6, 2]]
         accuracy_table = pd.DataFrame(index=[1, 2, 3, 4, 5, 6], columns=[2])                             
