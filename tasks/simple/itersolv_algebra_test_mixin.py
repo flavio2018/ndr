@@ -7,7 +7,7 @@ class IterSolvAlgebraTestMixin:
         self.batch_dim = 1
         
         self.train_set = ItersolvDataset(
-            'algebra_solve_easy',
+            'algebra',
             'train',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
