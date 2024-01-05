@@ -148,7 +148,6 @@ class Task:
             test = set.start_test()
             for d in tqdm(loader):
                 d = self.prepare_data(d)
-                breakpoint()
                 res, _ = self.run_model(d)
                 digits = self.model_interface.decode_outputs(res)
                 loss_sum += res.loss.sum().item() * res.batch_size
