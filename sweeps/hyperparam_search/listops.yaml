@@ -49,7 +49,7 @@ parameters:
   optimizer:
     value: adamw
   stop_after:
-    value: 100000
+    value: 30000
   max_length_per_batch:
     value: none
   amp:
