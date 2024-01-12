@@ -73,6 +73,6 @@ parameters:
   trafo_classifier.out_mode:
     value: linear
   transformer_classifier.result_column:
-    value: 20
+    value: 12
   trafo_classifier.norm_att:
     value: 0
