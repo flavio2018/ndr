@@ -18,7 +18,7 @@ parameters:
   test_batch_size:
     value: 32
   transformer.encoder_n_layers:
-    min: 4
+    min: 10
     max: 20
   task:
     value: itersolv_algebra_trafo
@@ -26,10 +26,7 @@ parameters:
     min: 0.00005
     max: 0.001
   state_size:
-    values:
-      - 128
-      - 256
-      - 512
+    value: 512
   dropout:
     min: 0.0
     max: 0.5
@@ -37,11 +34,7 @@ parameters:
     min: 0.0
     max: 0.1
   transformer.n_heads:
-    values:
-      - 2
-      - 4
-      - 8
-      - 16
+    value: 16
   batch_size:
     value: 256
   length_bucketed_sampling:
@@ -66,10 +59,7 @@ parameters:
   ndr.drop_gate:
     value: 0.1
   transformer.ff_multiplier:
-    values:
-      - 1
-      - 2
-      - 4
+    value: 4
   trafo_classifier.out_mode:
     value: linear
   transformer_classifier.result_column:
