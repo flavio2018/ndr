@@ -35,7 +35,7 @@ class IterSolvAlgebraMixin:
         
         self.valid_sets.all = ItersolvDataset(
             'algebra',
-            'valid_ood',
+            'valid',
             self.helper.args.batch_size,
             self.helper.args.test_batch_size,
             'cuda',
