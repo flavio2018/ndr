@@ -31,6 +31,7 @@ def a(parser: framework.helpers.ArgumentParser):
     parser.add_argument("-ndr.global_content_bias", default=True)
     parser.add_argument("-act.loss_weight", default=0.001)
     parser.add_argument("-act.ut_variant", default=False)
+    parser.add_argument("-geometric.pos_encoding", default='direction')
 
 
 class TransformerClassifierMixin:
