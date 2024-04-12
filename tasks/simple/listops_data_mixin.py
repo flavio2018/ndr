@@ -5,7 +5,7 @@ from typing import Dict, Any
 
 @args
 def a(parser: framework.helpers.ArgumentParser):
-    parser.add_argument("-listops.variant", choice=["big", "official"], default="big")
+    parser.add_argument("-listops.variant", choice=["big", "official", "small"], default="big")
 
 
 class ListopsDataMixin:
