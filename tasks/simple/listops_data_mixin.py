@@ -24,7 +24,7 @@ class ListopsDataMixin:
             self.valid_sets.valid = dataset.ListOps("test", length=50, depth=[7,7], p_op=0.3, n_samples=1000, equivalize_depdendency_depth=True)
             self.valid_sets.depth = dataset.ListOps("test", length=50, depth=[8,9], p_op=0.3, n_samples=1000, equivalize_depdendency_depth=True)
         elif self.helper.args.listops.variant == "small":
-            self.train_set = dataset.ListOps("train", length=50, depth=2, p_op=0.3, n_samples=100000, equivalize_depdendency_depth=True, max_args=4)
+            self.train_set = dataset.ListOps("train", length=50, depth=2, p_op=0.3, n_samples=43000, equivalize_depdendency_depth=True, max_args=4)
             self.valid_sets.iid = dataset.ListOps("test", length=50, depth=2, p_op=0.3, n_samples=1000, equivalize_depdendency_depth=True, max_args=4)
             # self.valid_sets.valid = dataset.ListOps("test", length=50, depth=[7,7], p_op=0.3, n_samples=1000, equivalize_depdendency_depth=True, max_args=4)
             self.valid_sets.depth = dataset.ListOps("test", length=50, depth=[3,4], p_op=0.3, n_samples=1000, equivalize_depdendency_depth=True, max_args=4)
