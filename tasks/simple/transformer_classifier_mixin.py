@@ -88,7 +88,8 @@ class TransformerClassifierMixin:
                                       attention_dropout=self.helper.args.transformer.attention_dropout,
                                      out_mode=self.helper.args.trafo_classifier.out_mode, **args)
 
-        self.visualizer = LayerVisualizer(model, {"mha.plot_head_details": True})
+        # self.visualizer = LayerVisualizer(model, {"mha.plot_head_details": True})
+        self.visualizer = LayerVisualizer(model, {"mha.plot_head_details": False})
         self.validation_started_on = None
         self.raw_data_to_save = None
         return model
