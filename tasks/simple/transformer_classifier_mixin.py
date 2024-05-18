@@ -160,8 +160,9 @@ class TransformerClassifierMixin:
         return res
 
     def finish(self):
-        print("Saving raw plots")
-        for k, v in self.raw_data_to_save.items():
-            print(f"   Saving {k}")
-            self.helper.export_tensor(f"raw_plots/{k}", v)
-        print("Done.")
+        if self.raw_data_to_save is not None:
+            print("Saving raw plots")
+            for k, v in self.raw_data_to_save.items():
+                print(f"   Saving {k}")
+                self.helper.export_tensor(f"raw_plots/{k}", v)
+            print("Done.")
