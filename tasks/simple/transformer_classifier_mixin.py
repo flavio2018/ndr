@@ -120,6 +120,7 @@ class TransformerClassifierMixin:
         plot_now = (self.helper.args.debug_plot_interval is not None) and (self.validation_started_on is not None) \
                    and ((self.helper.state.iter // self.helper.args.test_interval) % \
                         self.helper.args.debug_plot_interval == 0)
+        plot_now = False  # disable plot attn
 
         if plot_now:
             s = self.get_steplabels(data)
@@ -134,7 +135,7 @@ class TransformerClassifierMixin:
                                     if isinstance(o, framework.visualize.plot.AnimatedHeatmap)}
             self.raw_data_to_save["steplabels"] = s
 
-        if (self.validation_started_on is not None):
+        if (self.validation_started_on is not None) and False:  # disable plot attn
             plots = {f"validation_plots/{self.validation_started_on}/{k}": v for k, v in plots.items()}
             self.helper.log(plots)
             plots = {}
