@@ -14,5 +14,5 @@ def a(parser: framework.helpers.ArgumentParser):
 
 
 @task()
-class ItersolvListopsTrafo(IterSolvLogicMixin, TransformerClassifierMixin, SimpleTask):
+class ItersolvLogicTrafo(IterSolvLogicMixin, TransformerClassifierMixin, SimpleTask):
     pass
