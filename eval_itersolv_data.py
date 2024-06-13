@@ -53,6 +53,7 @@ def main():
             difficulty_split=difficulty_split)
         task.create_loaders()
         test, loss = task.validate_on_name('ood')
+        breakpoint()
         print(f'ood_{nesting}_{n_operands}', test.accuracy)
         accuracy_table.loc[nesting, n_operands] = test.accuracy
 
