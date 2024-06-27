@@ -54,6 +54,7 @@ def main():
             eos=False,
             difficulty_split=difficulty_split)
         task.create_loaders()
+        print(len(task.valid_sets.ood))
         test, loss = task.validate_on_name('ood')
         print(f'ood_{nesting}_{n_operands}', test.accuracy)
         accuracy_table.loc[nesting, n_operands] = test.accuracy
