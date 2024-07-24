@@ -9,6 +9,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __init__(self, dataset_name, split, train_batch_size, eval_batch_size, device, sos, eos, difficulty_split=None, specials_in_x=False):
         self.dataset_name = dataset_name
+        self.set_tokenizer()
         self.in_vocabulary = None
         self.out_vocabulary = None
         self.train_batch_size = train_batch_size
@@ -19,6 +20,8 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
         self.sos = sos
         self.eos = eos
         self.difficulty_split = difficulty_split
+        self.vocab_tokens_x = None
+        self.vocab_tokens_y = None
         self._build_dataset_df(dataset_name, split)
         self._build_vocabulary()
         self._build_ndr_vocab()
@@ -29,6 +32,16 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def __len__(self):
         return len(self.df)
+
+    def set_tokenizer(self):
+        if "listops" in self.dataset_name:
+            self.tokenizer = "listops"
+        elif "arithmetic" in self.dataset_name:
+            self.tokenizer = "arithmetic"
+        elif "algebra" in self.dataset_name:
+            self.tokenizer = "algebra"
+        else:
+            self.tokenizer = "char"
 
     def _build_dataset_df(self, dataset_name, split):
         self.df = pd.read_csv(f'itersolv/datasets/{dataset_name}_controlled_ndr/{split}.csv')
@@ -45,8 +58,7 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
 
     def _build_vocabulary(self):
         x_vocab_tokens, y_vocab_tokens = self.get_vocab_tokens()
-        tokenizer = 'listops' if 'listops' in self.dataset_name else 'char'
-        self.vocabulary = Vocabulary(x_vocab_tokens, y_vocab_tokens, self.device, self.sos, self.eos, self.specials_in_x, tokenizer=tokenizer)
+        self.vocabulary = Vocabulary(x_vocab_tokens, y_vocab_tokens, self.device, self.sos, self.eos, self.specials_in_x, tokenizer=self.tokenizer)
 
     def _build_ndr_vocab(self):
         if self.in_vocabulary is None:
@@ -54,20 +66,53 @@ class ItersolvDataset(torch.utils.data.IterableDataset):
             self.out_vocabulary = framework.data_structures.WordVocabulary([c for c in self.vocabulary.y_vocab.vocab.itos_])
     
     def get_vocab_tokens(self):
-        if 'listops' in self.dataset_name:
+        if self.vocab_tokens_x is not None and self.vocab_tokens_y is not None:
+            return self.vocab_tokens_x, self.vocab_tokens_y
+
+        if self.tokenizer == "listops":
             return self._get_vocab_tokens_listops()
-        else:
+        elif self.tokenizer == "arithmetic":
+            return self._get_vocab_tokens_arithmetic()
+        elif self.tokenizer == "algebra":
+            return self._get_vocab_tokens_algebra()
+        elif self.tokenizer == "char":
             return self._get_vocabs_chars()
 
     def _get_vocab_tokens_listops(self):
         x_tokens_sets = self.df['X'].apply(Vocabulary._tokenize_listops).apply(lambda s: set(s))
         y_tokens_sets = self.df['Y'].apply(Vocabulary._tokenize_listops).apply(lambda s: set(s))
-        return self._build_vocab_tokens_lists(x_tokens_sets, y_tokens_sets)
+        self.vocab_tokens_x, self.vocab_tokens_y = self._build_vocab_tokens_lists(x_tokens_sets, y_tokens_sets)
+        return self.vocab_tokens_x, self.vocab_tokens_y
+
+    def _get_vocab_tokens_arithmetic(self):
+        x_tokenized = self.df["X"].apply(Vocabulary._tokenize_arithmetic)
+        x_tokens_sets = x_tokenized.apply(lambda s: set(s))
+        del x_tokenized
+        y_tokenized = self.df["Y"].apply(Vocabulary._tokenize_arithmetic)
+        y_tokens_sets = y_tokenized.apply(lambda s: set(s))
+        del y_tokenized
+        self.vocab_tokens_x, self.vocab_tokens_y = self._build_vocab_tokens_lists(
+            x_tokens_sets, y_tokens_sets
+        )
+        return self.vocab_tokens_x, self.vocab_tokens_y
+
+    def _get_vocab_tokens_algebra(self):
+        x_tokens_sets = (
+            self.df["X"].apply(Vocabulary._tokenize_algebra).apply(lambda s: set(s))
+        )
+        y_tokens_sets = (
+            self.df["Y"].apply(Vocabulary._tokenize_algebra).apply(lambda s: set(s))
+        )
+        self.vocab_tokens_x, self.vocab_tokens_y = self._build_vocab_tokens_lists(
+            x_tokens_sets, y_tokens_sets
+        )
+        return self.vocab_tokens_x, self.vocab_tokens_y
 
     def _get_vocabs_chars(self):
         x_chars_sets = self.df['X'].apply(lambda s: set(s))
         y_chars_sets = self.df['Y'].apply(lambda s: set(s))
-        return self._build_vocab_tokens_lists(x_chars_sets, y_chars_sets)
+        self.vocab_tokens_x, self.vocab_tokens_y = self._build_vocab_tokens_lists(x_chars_sets, y_chars_sets)
+        return self.vocab_tokens_x, self.vocab_tokens_y
 
     @staticmethod
     def _build_vocab_tokens_lists(x_tokens_sets, y_tokens_sets):

@@ -59,6 +59,12 @@ class Vocabulary:
 			return self._tokenize_char(sample)
 		elif self.tokenizer == 'listops':
 			return self._tokenize_listops(sample)
+		elif self.tokenizer == "arithmetic":
+			return self._tokenize_arithmetic(sample)
+		elif self.tokenizer == "algebra":
+			return self._tokenize_algebra(sample)
+		elif self.tokenizer == "logic":
+			return self._tokenize_char(sample)
 
 	@staticmethod
 	def _tokenize_char(sample: str) -> list:
@@ -69,7 +75,21 @@ class Vocabulary:
 		listops_re = re.compile(r'(\d)|(SM|MIN|MAX)|([\[\]])|([?.#$])')
 		matches = listops_re.findall(sample)
 		return [[submatch for submatch in match if submatch][0] for match in matches]
-	
+
+	@staticmethod
+	def _tokenize_arithmetic(sample: str) -> list:
+		arithmetic_re = re.compile(r"([+\-*])|([0-9]+)|([()])|([?.#$])")
+		matches = arithmetic_re.findall(sample)
+		return [[submatch for submatch in match if submatch][0] for match in matches]
+
+	@staticmethod
+	def _tokenize_algebra(sample: str) -> list:
+		algebra_re = re.compile(
+			r"([+\-*])|([0-9]+\*[abxy*]+)|([0-9]+)|([abxy*]+)|([()])|([?.#$])"
+		)
+		matches = algebra_re.findall(sample)
+		return [[submatch for submatch in match if submatch][0] for match in matches]
+
 	def str_to_batch(self, str_samples, x=True):
 		if not x:
 			if self.sos:
