@@ -49,7 +49,6 @@ class WordVocabulary:
     def _process_index(self, i: int) -> str:
         res = self.inv_words.get(i, None)
         if res is None:
-            breakpoint()
             return f"<!INV: {i}!>"
         return res
 
