@@ -18,7 +18,7 @@ import numpy as np
 
 
 def get_plot_config(args):
-    assert args.log in ["all", "tb", "wandb"]
+    assert args.log in ["all", "tb", "wandb", "no"]
     return args.log in ["all", "tb"], args.log in ["all", "wandb"]
 
 
