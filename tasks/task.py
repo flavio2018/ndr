@@ -151,7 +151,7 @@ class Task:
                 res, _ = self.run_model(d)
                 digits = self.model_interface.decode_outputs(res)
                 loss_sum += res.loss.sum().item() * res.batch_size
-
+                breakpoint()
                 test.step(digits, d)
 
         self.model.train()
