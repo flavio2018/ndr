@@ -140,7 +140,7 @@ class SimpleTask(Task):
         with self.forward_time_meter:
             self.set_lr()
             self.optimizer.zero_grad(set_to_none=True)
-
+            breakpoint()
             data, d_chunks = self.fetcher.get()
 
             res_list = []
