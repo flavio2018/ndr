@@ -41,3 +41,10 @@ class IterSolvAlgebraMixin:
             'cuda',
             sos=False,
             eos=False)
+
+        self.valid_sets.iid.vocabulary = self.train_set.vocabulary
+        self.valid_sets.iid._build_ndr_vocab()
+        self.valid_sets.ood.vocabulary = self.train_set.vocabulary
+        self.valid_sets.ood._build_ndr_vocab()
+        self.valid_sets.all.vocabulary = self.train_set.vocabulary
+        self.valid_sets.all._build_ndr_vocab()
