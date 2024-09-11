@@ -125,7 +125,7 @@ class TransformerClassifierMixin:
         if plot_now:
             s = self.get_steplabels(data)
             self.visualizer.prepare({"steplabel": s})
-
+        breakpoint()
         res = self.model_interface(data)
 
         if plot_now:
