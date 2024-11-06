@@ -42,6 +42,12 @@ def main():
     test, loss = task.validate_on_name('ood')
     print(f'testall_acc', test.accuracy)
 
+    pytorch_total_params = sum(p.numel() for p in task.model.parameters())
+    pytorch_trainable_params = sum(p.numel() for p in task.model.parameters() if p.requires_grad)
+
+    print("pytorch_total_params", pytorch_total_params)
+    print("pytorch_trainable_params", pytorch_trainable_params)
+
     for difficulty_split in difficulty_splits:
         nesting, n_operands = difficulty_split
         task.valid_sets.ood = ItersolvDataset(
